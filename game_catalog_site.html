@@ -1,0 +1,125 @@
+import os
+import configparser
+from flask import Flask, render_template, jsonify
+
+app = Flask(__name__)
+
+DATA_DIR = "./data"
+
+# Загружаем список систем
+def load_systems():
+    systems_ini = os.path.join(DATA_DIR, "Systems.ini")
+    config = configparser.ConfigParser()
+    config.read(systems_ini, encoding="utf-8")
+    systems = []
+    for section in config.sections():
+        systems.append({
+            "name": section,
+            "dir": config[section].get("Dir", section)
+        })
+    return systems
+
+# Загружаем игры, демо и эмуляторы
+def load_games(system_dir):
+    all_games = []
+    for ini_name in ["Games.ini", "Demos.ini", "Emulators.ini"]:
+        ini_path = os.path.join(DATA_DIR, system_dir, ini_name)
+        if not os.path.exists(ini_path):
+            continue
+        config = configparser.ConfigParser()
+        config.read(ini_path, encoding="utf-8")
+        for section in config.sections():
+            entry = config[section]
+            all_games.append({
+                "id": section,
+                "name": entry.get("Name", "Unnamed"),
+                "year": entry.get("Year", "-"),
+                "rating": entry.get("Rating", "-"),
+                "found": entry.get("Found", "No"),
+                "dir": entry.get("Dir", ""),
+                "comment": entry.get("Comment", "")
+            })
+    return all_games
+
+@app.route("/")
+def index():
+    systems = load_systems()
+    return render_template("index.html", systems=systems)
+
+@app.route("/system/<system_dir>")
+def get_games(system_dir):
+    return jsonify(load_games(system_dir))
+
+# --- HTML шаблон ---
+# templates/index.html
+# --------------------------------------------------
+# <!DOCTYPE html>
+# <html lang="ru">
+# <head>
+#   <meta charset="UTF-8">
+#   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+#   <title>Game Catalog</title>
+#   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+# </head>
+# <body class="bg-gray-900 text-white">
+#   <div class="max-w-6xl mx-auto p-6">
+#     <h1 class="text-3xl font-bold mb-4">🎮 Game Catalog</h1>
+#     <div class="mb-4">
+#       <label class="block mb-1">Выберите систему:</label>
+#       <select id="systemSelect" class="p-2 bg-gray-800 border border-gray-700 rounded">
+#         {% for s in systems %}
+#         <option value="{{ s.dir }}">{{ s.name }}</option>
+#         {% endfor %}
+#       </select>
+#     </div>
+#     <input id="searchBox" type="text" placeholder="Поиск игр..." class="p-2 mb-4 w-full bg-gray-800 border border-gray-700 rounded">
+#     <ul id="gameList" class="divide-y divide-gray-700"></ul>
+#     <div id="gameDetails" class="hidden mt-6">
+#       <div class="tabs flex space-x-4 border-b border-gray-700 mb-4">
+#         <button class="tab-btn" data-tab="screens">Скриншоты</button>
+#         <button class="tab-btn" data-tab="info">Информация</button>
+#         <button class="tab-btn" data-tab="youtube">YouTube</button>
+#       </div>
+#       <div id="tab-screens" class="tab-content"></div>
+#       <div id="tab-info" class="tab-content hidden"></div>
+#       <div id="tab-youtube" class="tab-content hidden"></div>
+#     </div>
+#   </div>
+# <script>
+# const systemSelect = document.getElementById('systemSelect');
+# const gameList = document.getElementById('gameList');
+# const searchBox = document.getElementById('searchBox');
+# let allGames = [];
+# async function loadGames() {
+#   const system = systemSelect.value;
+#   const res = await fetch(`/system/${system}`);
+#   allGames = await res.json();
+#   renderGames(allGames);
+# }
+# function renderGames(list) {
+#   const filter = searchBox.value.toLowerCase();
+#   gameList.innerHTML = '';
+#   list.filter(g => g.name.toLowerCase().includes(filter)).forEach(g => {
+#     const li = document.createElement('li');
+#     li.className = 'p-3 hover:bg-gray-800 cursor-pointer';
+#     li.textContent = `${g.name} (${g.year}) ⭐${g.rating}`;
+#     li.onclick = () => showGame(g);
+#     gameList.appendChild(li);
+#   });
+# }
+# function showGame(g) {
+#   document.getElementById('gameDetails').classList.remove('hidden');
+#   document.getElementById('tab-info').innerHTML = `<h2 class='text-xl font-bold mb-2'>${g.name}</h2><p>Год: ${g.year}</p><p>Рейтинг: ${g.rating}</p><p>${g.comment}</p>`;
+#   document.getElementById('tab-screens').innerHTML = `<img src='/static/screens/${g.dir}/1.png' class='w-full rounded'>`;
+#   document.getElementById('tab-youtube').innerHTML = `<iframe width='560' height='315' src='https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(g.name + ' gameplay')}' allowfullscreen></iframe>`;
+# }
+# searchBox.addEventListener('input', () => renderGames(allGames));
+# systemSelect.addEventListener('change', loadGames);
+# loadGames();
+# </script>
+# </body>
+# </html>
+# --------------------------------------------------
+
+if __name__ == "__main__":
+    app.run(debug=True, port=5000)
