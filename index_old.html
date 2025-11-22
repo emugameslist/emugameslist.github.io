@@ -5,82 +5,328 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>EmuGames List</title>
 <meta name="description" content="Retro games catalog – screenshots, descriptions and gameplay videos." />
-<meta name="keywords" content="game catalog, retro games, gaming systems" />
-<meta name="robots" content="index, follow" />
-<!-- <link rel="canonical" href="https://[YOUR_DOMAIN].com/" /> -->
-<meta property="og:title" content="EmuGames List" />
-<meta property="og:description" content="Retro games catalog – screenshots, descriptions and gameplay videos." />
-<meta property="og:type" content="website" />
-<!-- <meta property="og:url" content="https://[YOUR_DOMAIN].com/" /> -->
-<!-- <meta property="og:image" content="https://[YOUR_DOMAIN].com/images/preview.jpg" /> -->
 <style>
   :root{
-    --bg:#0b0b0d; --panel:#0f1113; --muted:#9aa0a6; --accent:#7dd3fc;
-    --card:#111316; --gap:14px; font-family: Inter, Roboto, Arial, sans-serif;
+    --bg:#0c141a; 
+    --bg-subtle:#121e27;
+    --panel:#16232e; 
+    --muted:#8a9ba8; 
+    --accent:#4da6ff;
+    --card:#1a2a38; 
+    --text-primary:#e6f0fa;
+    --text-secondary:#a3b8c8;
+    --border:#25394a;
+    --scrollbar-thumb:#3f5263; /* Более светлый цвет для скролла */
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   }
-  html,body{height:100%;margin:0;background:linear-gradient(180deg,#070708 0%, #0b0b0d 100%);color:#e6eef6}
-  .wrap{max-width:1100px;margin:18px auto;padding:18px;display:grid;grid-template-columns:260px 1fr;gap:18px}
-  header{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:12px}
-  header h1{margin:0;font-size:18px}
-  .panel{background:var(--panel);border-radius:10px;padding:12px;box-shadow:0 6px 20px rgba(0,0,0,.6)}
-  .search{width:100%;padding:10px;border-radius:8px;border:1px solid #222;background:#0b0b0b;color:#e6eef6}
-  /* Специальные стили для SELECT */
-  #system-select{appearance:none; padding-right:30px;}
-  #game-list{height:60vh;overflow:auto;padding:10px}
-  .game-item{padding:10px;border-radius:8px;margin-bottom:8px;background:var(--card);cursor:pointer;border:1px solid rgba(255,255,255,0.02)}
-  .game-item:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.6)}
-  .meta{color:var(--muted);font-size:13px;margin-top:6px}
-  #details{padding:12px;height:76vh;overflow:auto}
-  .tabs{display:flex;gap:8px;margin-bottom:12px}
-  .tab{padding:8px 12px;border-radius:8px;background:#0e1112;border:1px solid rgba(255,255,255,.03);cursor:pointer}
-  .tab.active{background:linear-gradient(90deg,#08303c,#0b4a55);color:#fff}
-  .screens{display:flex;gap:8px;flex-wrap:wrap}
-  .screens img{max-width:100%;border-radius:8px;display:block;box-shadow:0 8px 20px rgba(0,0,0,.6)}
-  .screenshot-card{width:48%;min-width:220px}
-  .info-row{margin-bottom:8px}
-  iframe{width:100%;height:360px;border-radius:8px;border:0;background:#000}
-  .no-data{color:var(--muted);padding:12px}
-  @media(max-width:900px){
-    .wrap{grid-template-columns:1fr; padding:10px}
-    #game-list{height:220px}
-    #details{height:auto}
+  
+  /* --- 2. ЯРКИЕ СКРОЛЛБАРЫ --- */
+  ::-webkit-scrollbar { width: 12px; height: 12px; }
+  ::-webkit-scrollbar-track { background: var(--bg); border-radius: 0; }
+  ::-webkit-scrollbar-thumb { 
+    background: var(--scrollbar-thumb); /* Светлее чем раньше */
+    border-radius: 0; 
+    border: 2px solid var(--bg); 
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--accent); } /* Ярко-синий при наведении */
+  
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(180deg, #0a1118 0%, #0c141a 100%);
+    color: var(--text-primary);
+    overflow: hidden; 
+  }
+  
+  .wrap {
+    /* 7. ИСПОЛЬЗУЕМ dvh ДЛЯ МОБИЛЬНЫХ БРАУЗЕРОВ */
+    height: 100vh; /* Fallback */
+    height: 100dvh; 
+    
+    max-width: 1400px; 
+    margin: 0 auto;
+    
+    /* 6. УМЕНЬШЕННЫЕ ОТСТУПЫ СВЕРХУ И СНИЗУ */
+    padding: 10px 15px 15px 15px; 
+    
+    box-sizing: border-box;
+    display: grid;
+    grid-template-rows: auto 1fr; 
+    grid-template-columns: 320px 1fr; 
+    gap: 12px; /* Чуть плотнее */
+  }
+  
+  header {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* 5, 6. УБРАНА ЛИНИЯ И ОТСТУПЫ */
+    padding-bottom: 4px;
+    border-bottom: none; 
+    min-height: 30px;
+  }
+  
+  header h1 { margin: 0; font-size: 18px; font-weight: 600; }
+
+  .panel {
+    background: var(--panel);
+    border-radius: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100%;
+  }
+
+  aside.panel { padding: 10px; } /* 1. КОМПАКТНЕЕ */
+
+  .search {
+    width: 100%;
+    /* 1. БОЛЕЕ УЗКИЕ ПОЛЯ */
+    padding: 8px; 
+    border-radius: 0;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text-primary);
+    box-sizing: border-box;
+    margin-top: 5px;
+    font-size: 13px;
+  }
+
+  #system-select {
+    appearance: none; 
+    padding-right: 35px;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238a9ba8' stroke-width='2' stroke-linecap='square' stroke-linejoin='miter'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 14px 14px;
+    cursor: pointer;
+  }
+  
+  #game-list-container {
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    min-height: 0; 
+    margin-top: 10px;
+  }
+
+  #game-list {
+    overflow-y: auto; 
+    /* 4. ВЫРАВНИВАНИЕ ПРАВОГО КРАЯ (убираем padding справа) */
+    padding: 0; 
+    padding-right: 2px; /* Минимальный отступ для скролла */
+  }
+
+  .game-item {
+    /* 1. БОЛЕЕ УЗКИЕ ЭЛЕМЕНТЫ СПИСКА */
+    padding: 8px 10px; 
+    border-radius: 0;
+    margin-bottom: 6px; /* Плотнее */
+    background: var(--card);
+    cursor: pointer;
+    border: 1px solid var(--border);
+    transition: all 0.2s ease;
+  }
+  
+  .game-item:hover { border-color: var(--accent); transform: translateX(2px); }
+  .game-item.selected { border-color: var(--accent); background: rgba(77, 166, 255, 0.12); }
+  .meta { color: var(--text-secondary); font-size: 11px; margin-top: 2px; } /* Мелкий шрифт */
+
+  #details { padding: 10px; }
+
+  .tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  
+  .tab {
+    /* 1. БОЛЕЕ УЗКИЕ КНОПКИ */
+    padding: 6px 14px; 
+    border-radius: 0;
+    background: var(--card);
+    cursor: pointer;
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+    font-size: 13px;
+    font-weight: 500;
+    transition: background 0.2s;
+  }
+  .tab:hover { background: var(--bg-subtle); }
+  .tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  .tab-content {
+    flex: 1; 
+    position: relative;
+    overflow: hidden; 
+    display: flex;
+    flex-direction: column;
+    min-height: 0; /* ВАЖНО для вложенных flex-контейнеров */
+  }
+
+  /* --- SCREENSHOTS AREA --- */
+  #tab-screens {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .screens-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    background: var(--bg-subtle);
+    padding: 6px 10px; /* Компактнее */
+    border-radius: 0;
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .screens-controls { display: flex; align-items: center; gap: 8px; }
+
+  .screen-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    width: 26px; height: 26px; /* Меньше кнопки */
+    border-radius: 0;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    user-select: none;
+  }
+
+  .screen-btn:hover { background: var(--accent); border-color: var(--accent); color: white; }
+
+  .screen-counter {
+    font-size: 12px; color: var(--text-secondary);
+    font-variant-numeric: tabular-nums; min-width: 30px; text-align: center;
+  }
+
+  #screenshot-wrapper {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0; /* Критично для адаптивности */
+    background: rgba(0,0,0,0.2); 
+    border-radius: 0;
+    border: 1px solid var(--border);
+  }
+  
+  .screenshot-item {
+    /* 8. АДАПТИВНОСТЬ: Элемент занимает всё место, но не больше */
+    width: 100%;
+    height: 100%;
+    display: none; 
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 4px; 
+    overflow: hidden;
+  }
+
+  .screenshot-item.active { display: flex; }
+
+  .screens img {
+    /* 8. АДАПТИВНОСТЬ: Картинка не вылезает за пределы */
+    max-width: 100%;
+    max-height: 100%; 
+    width: auto;
+    height: auto;
+    object-fit: contain; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    border-radius: 0;
+    
+    /* 9. КУРСОР РУКИ (ПАЛЕЦ) ПРИ НАВЕДЕНИИ */
+    cursor: pointer;
+  }
+
+  #tab-info, #tab-youtube {
+    overflow-y: auto;
+    height: 100%;
+    padding-right: 6px;
+  }
+  
+  #game-description {
+    white-space: pre-wrap; 
+    font-family: inherit;
+    color: var(--text-primary);
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    line-height: 1.5;
+    font-size: 14px;
+  }
+
+  .info-row { margin-bottom: 8px; line-height: 1.4; font-size: 14px; }
+  iframe { width: 100%; height: 100%; min-height: 300px; border: 0; border-radius: 0; }
+
+  /* --- MOBILE --- */
+  @media(max-width: 900px){
+    .wrap { display: block; height: auto; overflow: auto; padding: 10px; max-width: 100%; }
+    html, body { overflow: auto; height: auto; }
+    .panel { height: auto; min-height: 500px; margin-bottom: 20px; }
+    #game-list-container { height: 350px; }
+    .wrap { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <h1>Retro games catalog</h1>
-      <div style="color:var(--muted);font-size:13px">Screenshots · Descriptions · Gameplay</div>
+      <h1>Retro Games Catalog</h1>
+      <div style="color:var(--text-secondary);font-size:12px">Screenshots · Info · Gameplay</div>
     </header>
 
     <aside class="panel">
-      <div style="margin-bottom:10px">
-        <label style="color:var(--muted);font-size:13px" for="system-select">Systems</label>
-        <select id="system-select" class="search" style="margin-top:8px"></select>
+      <div style="flex-shrink: 0;"> 
+        <div style="margin-bottom:8px">
+          <label style="color:var(--text-secondary);font-size:12px" for="system-select">Systems</label>
+          <select id="system-select" class="search">
+            <option value="" disabled selected>Select a system...</option>
+          </select>
+        </div>
+
+        <div style="margin-bottom:8px">
+          <label style="color:var(--text-secondary);font-size:12px">Search Games</label>
+          <input id="search" class="search" placeholder="Type game name..." />
+        </div>
+        
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:10px; padding-bottom:4px;">
+          <label style="color:var(--text-primary);font-weight:600;font-size:13px">Games List</label>
+          <span id="games-count" style="font-size:11px;color:var(--text-secondary)"></span>
+        </div>
       </div>
 
-      <div style="margin-bottom:10px">
-        <label style="color:var(--muted);font-size:13px">Search Games</label>
-        <input id="search" class="search" placeholder="By title..." />
-      </div>
-
-      <div style="margin-top:8px">
-        <label style="color:var(--muted);font-size:13px">Games</label>
-        <div id="game-list" style="margin-top:8px"></div>
+      <div id="game-list-container">
+        <div id="game-list"></div>
       </div>
     </aside>
 
     <main class="panel" id="details">
-      <div id="placeholder">
-        <div class="no-data">Select a system and a game on the left — then switch between Screenshots / Info / Gameplay.</div>
+      <div id="placeholder" style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; color:var(--text-secondary); padding:20px;">
+        <div style="font-size:15px; margin-bottom:8px; color:var(--text-primary)">Select a System & Game</div>
+        <div style="font-size:13px; max-width:300px;">Browse the list on the left to view Screenshots, Info and Gameplay videos.</div>
       </div>
 
-      <div id="game-area" style="display:none">
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px">
+      <div id="game-area" style="display:none; flex: 1; flex-direction: column; height: 100%; overflow: hidden;">
+        
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px; flex-shrink: 0;">
           <div>
-            <div id="game-title" style="font-weight:700;font-size:18px"></div>
-            <div id="game-sub" class="meta"></div>
+            <div id="game-title" style="font-weight:700; font-size:18px; color: var(--text-primary); line-height:1.2;"></div>
+            <div id="game-sub" class="meta" style="font-size:12px; margin-top:2px;"></div>
           </div>
         </div>
 
@@ -90,25 +336,42 @@
           <div class="tab" data-tab="youtube">Gameplay</div>
         </div>
 
-        <div id="tab-screens">
-          <div class="screens" id="screens-list"></div>
-          <div id="screens-empty" class="no-data" style="display:none">Screenshots not found.</div>
-        </div>
+        <div class="tab-content">
+          
+          <div id="tab-screens" style="display:block;">
+              <div class="screens-toolbar" id="screens-toolbar" style="display:none;">
+                  <span style="font-size:12px; font-weight:600; color:var(--text-secondary)">Preview</span>
+                  <div class="screens-controls">
+                      <button id="prev-btn" class="screen-btn">‹</button>
+                      <span id="screen-counter" class="screen-counter">0/0</span>
+                      <button id="next-btn" class="screen-btn">›</button>
+                  </div>
+              </div>
 
-        <div id="tab-info" style="display:none">
-          <div id="info-area"></div>
-        </div>
+              <div id="screenshot-wrapper">
+                  <div class="screens" id="screens-list" style="width:100%; height:100%;"></div>
+                  <div id="screens-empty" class="no-data" style="text-align:center; display:none; position:absolute; font-size:13px; color:var(--text-secondary);">
+                    Loading images...
+                  </div>
+              </div>
+          </div>
 
-        <div id="tab-youtube" style="display:none">
-          <div id="youtube-area"></div>
+          <div id="tab-info" style="display:none;">
+            <div id="info-meta"></div> 
+            <div id="game-description"></div> 
+          </div>
+
+          <div id="tab-youtube" style="display:none;">
+            <div id="youtube-area"></div>
+          </div>
+
         </div>
       </div>
-
     </main>
   </div>
 
 <script>
-/* === INI parser (simple, robust for our INI shape) === */
+/* === INI parser === */
 function parseIni(text){
   const result = {}; let section = null;
   text = text.replace(/\ufeff/g, '').replace(/\r\n/g,'\n').replace(/\r/g,'\n');
@@ -116,15 +379,9 @@ function parseIni(text){
   for (let raw of lines){
     const line = raw.trim();
     if (!line || line.startsWith(';') || line.startsWith('#')) continue;
-    
     const sect = line.match(/^\[(.+?)\]$/);
-    if (sect){
-      section = sect[1];
-      result[section] = {};
-      continue;
-    }
-    
-    if (!section) continue;
+    if (sect){ section = sect[1]; result[section] = {}; continue; }
+    if (!section) continue; 
     const kv = line.split('=');
     if (kv.length >= 2){
       const key = kv[0].trim();
@@ -135,201 +392,277 @@ function parseIni(text){
   return result;
 }
 
-/* === utils to fetch INI files from data/ (UTF-16 LE BOM SUPPORT) === */
 async function fetchIniFile(path){
   try{
     const r = await fetch(path, {cache:'no-cache'});
-    if (!r.ok) {
-        console.error(`INI file loading error: ${path}. Status: ${r.status}`);
-        return null;
-    }
-    
-    // Read as ArrayBuffer (raw bytes)
+    if (!r.ok) return null;
     const buffer = await r.arrayBuffer();
-    
-    // Decode as UTF-16 Little Endian (LE) to support the required encoding + BOM
     const decoder = new TextDecoder('utf-16le');
-    const txt = decoder.decode(buffer); 
-
-    return parseIni(txt);
-  }catch(e){
-    console.error(`Critical error reading or parsing ${path}:`, e);
-    return null;
-  }
+    return parseIni(decoder.decode(buffer));
+  }catch(e){ console.error(e); return null; }
 }
 
-/* === load systems and populate UI === */
+async function fetchInfoText(path) {
+    try {
+        const r = await fetch(path, { cache: 'no-cache' });
+        if (!r.ok) return null;
+        const buffer = await r.arrayBuffer();
+        const decoder = new TextDecoder('utf-8');
+        return decoder.decode(buffer);
+    } catch (e) {
+        console.warn("Failed to load Info.txt", e);
+        return null;
+    }
+}
+
+/* === STATE === */
 const systemSelectEl = document.getElementById('system-select'); 
 const gameListEl = document.getElementById('game-list');
 const searchInput = document.getElementById('search');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const counterEl = document.getElementById('screen-counter');
+const toolbarEl = document.getElementById('screens-toolbar');
 
 let allGames = [];
 let shownGames = [];
 let currentGame = null;
+let currentScreenshots = []; 
+let currentScreenIndex = 0; 
+let gameItemElements = new Map(); 
+
+const GITHUB_USERNAME = 'imadering';
+const GITHUB_REPO_NAME = 'emugames-list';
+
+function showDefaultView() {
+  document.getElementById('placeholder').style.display = 'flex';
+  document.getElementById('game-area').style.display = 'none';
+  currentGame = null;
+  gameItemElements.forEach(el => el.classList.remove('selected'));
+}
 
 async function init(){
-  const systems = await fetchIniFile('Systems.ini');
-  systemSelectEl.innerHTML = '';
-  if (!systems || Object.keys(systems).length === 0){
-    systemSelectEl.innerHTML = '<option disabled selected>Systems.ini not found or empty</option>';
-    return;
-  }
+  showDefaultView();
   
-  const names = Object.keys(systems);
-  let firstDir = null;
-
-  for (let i=0;i<names.length;i++){
-    const sec = names[i];
-    const dir = systems[sec]['Dir'] || sec; 
-    const option = document.createElement('option');
-    option.value = dir;
-    option.textContent = sec;
-    systemSelectEl.appendChild(option);
-    
-    if (i === 0) {
-      firstDir = dir;
-      option.selected = true;
+  const systems = await fetchIniFile('Systems.ini');
+  systemSelectEl.innerHTML = '<option value="" disabled selected>Select a system...</option>';
+  
+  if (systems){
+    for (const sec of Object.keys(systems)){
+      const dir = systems[sec]['Dir'] || sec; 
+      const option = document.createElement('option');
+      option.value = dir;
+      option.textContent = sec;
+      systemSelectEl.appendChild(option);
     }
   }
 
   systemSelectEl.addEventListener('change', (e) => {
-    loadGamesForSystem(e.target.value);
+    showDefaultView();
+    if (e.target.value) {
+      loadGamesForSystem(e.target.value);
+    } else {
+      gameListEl.innerHTML = '';
+      document.getElementById('games-count').textContent = '';
+    }
   });
-
-  if (firstDir) {
-    loadGamesForSystem(firstDir);
-  }
+  
+  prevBtn.addEventListener('click', () => changeScreenshot(-1));
+  nextBtn.addEventListener('click', () => changeScreenshot(1));
 }
 
-/* === load and merge Games.ini / Emulators.ini / Demos.ini === */
 async function loadGamesForSystem(systemDir){
+  gameListEl.innerHTML = '<div style="padding:10px;color:var(--muted)">Loading games...</div>';
+  
   const candidates = [
-    `Systems/${encodeURIComponent(systemDir)}/Games.ini`,
-    `Systems/${encodeURIComponent(systemDir)}/Emulators.ini`,
-    `Systems/${encodeURIComponent(systemDir)}/Demos.ini`
+    { file: `Systems/${encodeURIComponent(systemDir)}/Games.ini`, source: 'Games' },
+    { file: `Systems/${encodeURIComponent(systemDir)}/Emulators.ini`, source: 'Emulators' },
+    { file: `Systems/${encodeURIComponent(systemDir)}/Demos.ini`, source: 'Demos' }
   ];
   const merged = {};
-  const tried = new Set();
-  for (const p of candidates){
-    if (tried.has(p)) continue;
-    tried.add(p);
-    const data = await fetchIniFile(p);
+  
+  for (const { file, source } of candidates){
+    const data = await fetchIniFile(file);
     if (!data) continue;
     for (const sec of Object.keys(data)){
-      merged[`${p}||${sec}`] = data[sec];
+      const uniqueKey = `${source}||${sec}`; 
+      merged[uniqueKey] = { ...data[sec], __source: source }; 
     }
   }
-  const arr = Object.values(merged).map(obj => {
-    return {
-      Name: obj['Name'] || obj['NAME'] || obj['name'] || '',
-      Dir: obj['Dir'] || obj['DIR'] || obj['dir'] || '',
-      Year: obj['Year'] || obj['year'] || '',
-      Rating: obj['Rating'] || obj['rating'] || '',
-      Comment: obj['Comment'] || obj['COMMENT'] || '',
-      Found: obj['Found'] || obj['found'] || ''
-    };
-  });
 
-  const sys = systemDir.toLowerCase();
-  const matches = arr.filter(g => {
-    if (!g.Dir && !g.Name) return false;
-    const d = (g.Dir || '').toLowerCase();
-    const n = (g.Name || '').toLowerCase();
-    if (d.startsWith(sys)) return true;
-    if (d.includes(sys)) return true;
-    if (sys && d.split(' ').some(tok=>sys.includes(tok) || tok.includes(sys))) return true;
-    return false;
-  });
-
-  allGames = (matches.length>0 ? matches : arr).map((g, idx) => ({
+  allGames = Object.values(merged).map((obj, idx) => ({
     id: idx,
-    name: g.Name,
-    dir: g.Dir,
-    year: g.Year,
-    rating: g.Rating,
-    comment: g.Comment,
-    found: g.Found
-  }));
-
+    name: obj['Name'] || obj['NAME'] || obj['name'] || '',
+    dir: obj['Dir'] || obj['DIR'] || obj['dir'] || '',
+    year: obj['Year'] || obj['year'] || '',
+    rating: obj['Rating'] || obj['rating'] || '',
+    comment: obj['Comment'] || obj['COMMENT'] || '',
+    found: obj['Found'] || obj['found'] || '',
+    source: obj['__source'] || 'Games' 
+  })).filter(g => g.name || g.dir); 
+  
   renderGameList();
 }
 
-/* === render games and search === */
 function renderGameList(){
   const q = (searchInput.value||'').toLowerCase();
   shownGames = allGames.filter(g => (g.name||'').toLowerCase().includes(q));
   gameListEl.innerHTML = '';
+  gameItemElements.clear();
+  
+  document.getElementById('games-count').textContent = `${shownGames.length}`;
+
   if (shownGames.length===0){
-    gameListEl.innerHTML = '<div class="no-data">No games found.</div>';
+    gameListEl.innerHTML = '<div class="no-data" style="padding:10px; font-size:13px;">No games found.</div>';
     return;
   }
+  
   for (const g of shownGames){
     const el = document.createElement('div');
     el.className = 'game-item';
-    el.innerHTML = `<div style="font-weight:600">${escapeHtml(g.name)}</div>
+    if (currentGame && currentGame.id === g.id) el.classList.add('selected');
+    
+    el.innerHTML = `<div style="font-weight:600; font-size:13px;">${escapeHtml(g.name)}</div>
       <div class="meta">${escapeHtml(g.dir)} ${g.year ? ' • ' + g.year : ''} ${g.rating ? ' • ⭐'+g.rating : ''}</div>`;
     el.onclick = () => showGame(g);
     gameListEl.appendChild(el);
+    gameItemElements.set(g.id, el);
   }
 }
 
-/* === show game details (tabs, screenshots, info, youtube) === */
-function showGame(g){
+async function showGame(g){
   currentGame = g;
-  document.getElementById('placeholder').style.display='none';
-  document.getElementById('game-area').style.display='block';
-  document.getElementById('game-title').textContent = g.name || '(No Name)';
-  document.getElementById('game-sub').textContent = `${g.dir || ''} ${g.year ? ' • ' + g.year : ''}`;
+  gameItemElements.forEach((el, id) => {
+    el.classList.toggle('selected', id === g.id);
+  });
   
-  const info = document.getElementById('info-area');
-  info.innerHTML = `
+  document.getElementById('placeholder').style.display = 'none';
+  document.getElementById('game-area').style.display = 'flex';
+  
+  document.getElementById('game-title').textContent = g.name || 'Unknown Title';
+  document.getElementById('game-sub').textContent = `${g.dir} (${g.source})`;
+  
+  // Info Meta
+  document.getElementById('info-meta').innerHTML = `
     <div class="info-row"><strong>Title:</strong> ${escapeHtml(g.name)}</div>
-    <div class="info-row"><strong>Directory / Year:</strong> ${escapeHtml(g.dir)} ${g.year ? ' • ' + escapeHtml(g.year) : ''}</div>
-    <div class="info-row"><strong>Rating:</strong> ${escapeHtml(g.rating || '—')}</div>
-    <div class="info-row"><strong>Found:</strong> ${escapeHtml(g.found || '—')}</div>
-    <div class="info-row"><strong>Comment:</strong> ${escapeHtml(g.comment || '')}</div>
+    <div class="info-row"><strong>Directory:</strong> ${escapeHtml(g.dir)}</div>
+    <div class="info-row"><strong>Category:</strong> ${escapeHtml(g.source)}</div>
+    <div class="info-row"><strong>Year:</strong> ${escapeHtml(g.year || 'N/A')}</div>
+    <div class="info-row"><strong>Rating:</strong> ⭐ ${escapeHtml(g.rating || 'N/A')}</div>
+    <div class="info-row"><strong>Found:</strong> ${escapeHtml(g.found || 'No')}</div>
   `;
+  
+  // Info Text
+  const descriptionEl = document.getElementById('game-description');
+  descriptionEl.textContent = 'Loading details...';
+  
+  const infoPath = `Systems/${systemSelectEl.value}/${g.source}/${g.dir}/Info.txt`;
+  const infoText = await fetchInfoText(infoPath);
+  
+  if (infoText) {
+      descriptionEl.textContent = infoText;
+  } else {
+      descriptionEl.textContent = g.comment ? `Comment from INI:\n${g.comment}` : 'No additional details available.';
+  }
 
+  // Youtube
+  const yt = document.getElementById('youtube-area');
+  if(g.name) {
+      const q = encodeURIComponent(g.name + ' gameplay');
+      yt.innerHTML = `<iframe src="https://www.youtube.com/embed?listType=search&list=${q}" allowfullscreen></iframe>`;
+  } else {
+      yt.innerHTML = 'No name for search.';
+  }
+
+  // Reset tabs
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelector('.tab[data-tab="screens"]').classList.add('active');
+  document.getElementById('tab-screens').style.display = 'block';
+  document.getElementById('tab-info').style.display = 'none';
+  document.getElementById('tab-youtube').style.display = 'none';
+
+  loadScreenshots(g);
+}
+
+async function loadScreenshots(g) {
   const screensList = document.getElementById('screens-list');
   screensList.innerHTML = '';
-  const base = g.dir || g.name || '';
-  const extCandidates = ['png','jpg','jpeg','webp'];
-  let foundAny = false;
-  for (let i=1;i<=8;i++){
-    for (const ext of extCandidates){
-      const path = `data/screenshots/${encodeURIComponent(base)}_${i}.${ext}`;
-      const img = new Image();
-      img.dataset.tryPath = path;
-      img.style.display = 'none';
-      img.onload = () => {
-        foundAny = true;
-        img.style.display = 'block';
-        const card = document.createElement('div');
-        card.className = 'screenshot-card';
-        card.appendChild(img);
-        img.style.cursor='pointer';
-        img.onclick = () => window.open(path, '_blank');
-        screensList.appendChild(card);
-        document.getElementById('screens-empty').style.display = 'none';
-      };
-      img.onerror = () => {};
-      img.src = path;
-    }
-  }
-  setTimeout(()=> {
-    if (!screensList.children.length) {
-      document.getElementById('screens-empty').style.display = 'block';
-    } else {
-      document.getElementById('screens-empty').style.display = 'none';
-    }
-  }, 600);
+  currentScreenshots = [];
+  currentScreenIndex = 0;
+  
+  toolbarEl.style.display = 'none';
+  document.getElementById('screens-empty').style.display = 'block';
+  document.getElementById('screens-empty').textContent = 'Loading...';
 
-  const yt = document.getElementById('youtube-area');
-  const q = encodeURIComponent((g.name || '') + ' gameplay');
-  yt.innerHTML = `<iframe src="https://www.youtube.com/embed?listType=search&list=${q}" allowfullscreen></iframe>`;
+  const baseFolder = `Systems/${systemSelectEl.value}/${g.source}/${g.dir}`;
+  const jsonUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO_NAME}/main/${encodeURIComponent(baseFolder)}/images.json`;
+  
+  try {
+      const response = await fetch(jsonUrl);
+      
+      if (response.ok) {
+          const imagesArray = await response.json();
+          
+          if (Array.isArray(imagesArray) && imagesArray.length > 0) {
+              document.getElementById('screens-empty').style.display = 'none';
+              
+              imagesArray.forEach((filename) => {
+                  const rawUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO_NAME}/main/${encodeURIComponent(baseFolder)}/${encodeURIComponent(filename)}`;
+
+                  const img = new Image();
+                  img.src = rawUrl;
+                  img.onclick = () => window.open(rawUrl, '_blank');
+                  
+                  const wrapper = document.createElement('div');
+                  wrapper.className = 'screenshot-item'; 
+                  wrapper.appendChild(img);
+                  
+                  currentScreenshots.push({ element: wrapper });
+                  screensList.appendChild(wrapper);
+              });
+              
+              toolbarEl.style.display = 'flex';
+              updateScreenshotDisplay();
+              return;
+          }
+      }
+      
+      throw new Error("No images list");
+
+  } catch (error) {
+      console.warn("Screenshots error:", error);
+      document.getElementById('screens-empty').textContent = 'Screenshots not found.';
+  }
 }
 
-/* === simple tab handling === */
+function updateScreenshotDisplay() {
+    const total = currentScreenshots.length;
+    if (total === 0) return;
+    
+    currentScreenshots.forEach((item, index) => {
+        if (index === currentScreenIndex) {
+            item.element.classList.add('active');
+        } else {
+            item.element.classList.remove('active');
+        }
+    });
+
+    counterEl.textContent = `${currentScreenIndex + 1}/${total}`;
+
+    prevBtn.disabled = total <= 1;
+    nextBtn.disabled = total <= 1;
+    prevBtn.style.opacity = total <= 1 ? 0.5 : 1;
+    nextBtn.style.opacity = total <= 1 ? 0.5 : 1;
+}
+
+function changeScreenshot(delta) {
+    if (currentScreenshots.length === 0) return;
+    currentScreenIndex += delta;
+    if (currentScreenIndex < 0) currentScreenIndex = currentScreenshots.length - 1;
+    if (currentScreenIndex >= currentScreenshots.length) currentScreenIndex = 0;
+    updateScreenshotDisplay();
+}
+
 document.getElementById('tabs').addEventListener('click', (e)=>{
   const t = e.target.closest('.tab');
   if (!t) return;
@@ -341,16 +674,13 @@ document.getElementById('tabs').addEventListener('click', (e)=>{
   document.getElementById('tab-youtube').style.display = tabName==='youtube' ? 'block' : 'none';
 });
 
-/* === search handler === */
 searchInput.addEventListener('input', () => renderGameList());
 
-/* === utils === */
 function escapeHtml(s){
   if (!s) return '';
   return s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
 }
 
-/* === init on page load === */
 init();
 </script>
 </body>
