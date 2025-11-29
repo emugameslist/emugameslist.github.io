@@ -16,19 +16,19 @@
     --text-primary:#e6f0fa;
     --text-secondary:#a3b8c8;
     --border:#25394a;
-    --scrollbar-thumb:#3f5263; /* Более светлый цвет для скролла */
+    --scrollbar-thumb:#3f5263; 
+    --scrollbar-hover:#5a7285; /* 2. Цвет скролла при наведении (менее яркий) */
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   }
   
-  /* --- 2. ЯРКИЕ СКРОЛЛБАРЫ --- */
   ::-webkit-scrollbar { width: 12px; height: 12px; }
   ::-webkit-scrollbar-track { background: var(--bg); border-radius: 0; }
   ::-webkit-scrollbar-thumb { 
-    background: var(--scrollbar-thumb); /* Светлее чем раньше */
+    background: var(--scrollbar-thumb); 
     border-radius: 0; 
     border: 2px solid var(--bg); 
   }
-  ::-webkit-scrollbar-thumb:hover { background: var(--accent); } /* Ярко-синий при наведении */
+  ::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-hover); } /* 2. Применение цвета */
   
   html, body {
     height: 100%;
@@ -36,25 +36,25 @@
     padding: 0;
     background: linear-gradient(180deg, #0a1118 0%, #0c141a 100%);
     color: var(--text-primary);
-    overflow: hidden; 
+    overflow: hidden; /* 3. Запрет прокрутки всего тела страницы */
   }
   
   .wrap {
-    /* 7. ИСПОЛЬЗУЕМ dvh ДЛЯ МОБИЛЬНЫХ БРАУЗЕРОВ */
+    width: 100%;
     height: 100vh; /* Fallback */
-    height: 100dvh; 
+    height: 100dvh; /* 3. Гарантия вписывания в экран */
     
     max-width: 1400px; 
     margin: 0 auto;
     
-    /* 6. УМЕНЬШЕННЫЕ ОТСТУПЫ СВЕРХУ И СНИЗУ */
-    padding: 10px 15px 15px 15px; 
+    /* 3, 7. Оптимизация отступов для компактности */
+    padding: 8px 15px 10px 15px; 
     
     box-sizing: border-box;
     display: grid;
-    grid-template-rows: auto 1fr; 
+    grid-template-rows: auto minmax(0, 1fr); /* minmax важен для Grid overflow */
     grid-template-columns: 320px 1fr; 
-    gap: 12px; /* Чуть плотнее */
+    gap: 8px; /* 7. Уменьшен отступ между шапкой и контентом */
   }
   
   header {
@@ -62,10 +62,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    /* 5, 6. УБРАНА ЛИНИЯ И ОТСТУПЫ */
-    padding-bottom: 4px;
-    border-bottom: none; 
-    min-height: 30px;
+    padding-bottom: 0; /* 7. Максимально близко */
+    min-height: 24px;
   }
   
   header h1 { margin: 0; font-size: 18px; font-weight: 600; }
@@ -81,11 +79,10 @@
     height: 100%;
   }
 
-  aside.panel { padding: 10px; } /* 1. КОМПАКТНЕЕ */
+  aside.panel { padding: 10px; }
 
   .search {
     width: 100%;
-    /* 1. БОЛЕЕ УЗКИЕ ПОЛЯ */
     padding: 8px; 
     border-radius: 0;
     border: 1px solid var(--border);
@@ -111,30 +108,29 @@
     display: flex;
     flex-direction: column;
     min-height: 0; 
-    margin-top: 10px;
+    margin-top: 5px; /* Чуть ближе к заголовку списка */
   }
 
   #game-list {
     overflow-y: auto; 
-    /* 4. ВЫРАВНИВАНИЕ ПРАВОГО КРАЯ (убираем padding справа) */
     padding: 0; 
-    padding-right: 2px; /* Минимальный отступ для скролла */
+    padding-right: 6px; /* 5. Отступ от скроллбара увеличен */
   }
 
   .game-item {
-    /* 1. БОЛЕЕ УЗКИЕ ЭЛЕМЕНТЫ СПИСКА */
     padding: 8px 10px; 
     border-radius: 0;
-    margin-bottom: 6px; /* Плотнее */
+    margin-bottom: 6px; 
     background: var(--card);
     cursor: pointer;
     border: 1px solid var(--border);
-    transition: all 0.2s ease;
+    transition: background 0.2s, border-color 0.2s; /* 4. Убран transform из transition */
   }
   
-  .game-item:hover { border-color: var(--accent); transform: translateX(2px); }
+  /* 4. Убрано смещение (transform) при наведении */
+  .game-item:hover { border-color: var(--accent); } 
   .game-item.selected { border-color: var(--accent); background: rgba(77, 166, 255, 0.12); }
-  .meta { color: var(--text-secondary); font-size: 11px; margin-top: 2px; } /* Мелкий шрифт */
+  .meta { color: var(--text-secondary); font-size: 11px; margin-top: 2px; }
 
   #details { padding: 10px; }
 
@@ -148,7 +144,6 @@
   }
   
   .tab {
-    /* 1. БОЛЕЕ УЗКИЕ КНОПКИ */
     padding: 6px 14px; 
     border-radius: 0;
     background: var(--card);
@@ -168,7 +163,7 @@
     overflow: hidden; 
     display: flex;
     flex-direction: column;
-    min-height: 0; /* ВАЖНО для вложенных flex-контейнеров */
+    min-height: 0; 
   }
 
   /* --- SCREENSHOTS AREA --- */
@@ -185,7 +180,7 @@
     align-items: center;
     margin-bottom: 8px;
     background: var(--bg-subtle);
-    padding: 6px 10px; /* Компактнее */
+    padding: 6px 10px; 
     border-radius: 0;
     border: 1px solid var(--border);
     flex-shrink: 0;
@@ -197,7 +192,7 @@
     background: var(--card);
     border: 1px solid var(--border);
     color: var(--text-primary);
-    width: 26px; height: 26px; /* Меньше кнопки */
+    width: 26px; height: 26px; 
     border-radius: 0;
     cursor: pointer;
     display: flex; align-items: center; justify-content: center;
@@ -219,14 +214,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 0; /* Критично для адаптивности */
+    min-height: 0; 
     background: rgba(0,0,0,0.2); 
     border-radius: 0;
     border: 1px solid var(--border);
   }
   
   .screenshot-item {
-    /* 8. АДАПТИВНОСТЬ: Элемент занимает всё место, но не больше */
     width: 100%;
     height: 100%;
     display: none; 
@@ -240,7 +234,6 @@
   .screenshot-item.active { display: flex; }
 
   .screens img {
-    /* 8. АДАПТИВНОСТЬ: Картинка не вылезает за пределы */
     max-width: 100%;
     max-height: 100%; 
     width: auto;
@@ -248,8 +241,6 @@
     object-fit: contain; 
     box-shadow: 0 4px 12px rgba(0,0,0,0.5);
     border-radius: 0;
-    
-    /* 9. КУРСОР РУКИ (ПАЛЕЦ) ПРИ НАВЕДЕНИИ */
     cursor: pointer;
   }
 
@@ -304,9 +295,9 @@
           <input id="search" class="search" placeholder="Type game name..." />
         </div>
         
-        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:10px; padding-bottom:4px;">
-          <label style="color:var(--text-primary);font-weight:600;font-size:13px">Games List</label>
-          <span id="games-count" style="font-size:11px;color:var(--text-secondary)"></span>
+        <div style="margin-top:8px; margin-bottom:4px; display:flex; justify-content:space-between; align-items:flex-end;">
+            <label style="color:var(--text-primary);font-weight:600;font-size:13px">Games List</label>
+            <span id="games-count" style="font-size:11px;color:var(--text-secondary)"></span>
         </div>
       </div>
 
@@ -430,9 +421,6 @@ let currentGame = null;
 let currentScreenshots = []; 
 let currentScreenIndex = 0; 
 let gameItemElements = new Map(); 
-
-const GITHUB_USERNAME = 'imadering';
-const GITHUB_REPO_NAME = 'emugames-list';
 
 function showDefaultView() {
   document.getElementById('placeholder').style.display = 'flex';
@@ -584,6 +572,7 @@ async function showGame(g){
   loadScreenshots(g);
 }
 
+// 1. Измененная функция загрузки скриншотов по локальным путям
 async function loadScreenshots(g) {
   const screensList = document.getElementById('screens-list');
   screensList.innerHTML = '';
@@ -594,8 +583,9 @@ async function loadScreenshots(g) {
   document.getElementById('screens-empty').style.display = 'block';
   document.getElementById('screens-empty').textContent = 'Loading...';
 
-  const baseFolder = `Systems/${systemSelectEl.value}/${g.source}/${g.dir}`;
-  const jsonUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO_NAME}/main/${encodeURIComponent(baseFolder)}/images.json`;
+  // Формируем путь к папке игры относительно корня сайта
+  const baseFolder = `Systems/${encodeURIComponent(systemSelectEl.value)}/${encodeURIComponent(g.source)}/${encodeURIComponent(g.dir)}`;
+  const jsonUrl = `${baseFolder}/images.json`;
   
   try {
       const response = await fetch(jsonUrl);
@@ -607,11 +597,12 @@ async function loadScreenshots(g) {
               document.getElementById('screens-empty').style.display = 'none';
               
               imagesArray.forEach((filename) => {
-                  const rawUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO_NAME}/main/${encodeURIComponent(baseFolder)}/${encodeURIComponent(filename)}`;
-
+                  // Путь к изображению локальный
+                  const localUrl = `${baseFolder}/${filename}`; // encodeURIComponent не нужен, если имя уже корректное, но если в json имена простые, ок.
+                  
                   const img = new Image();
-                  img.src = rawUrl;
-                  img.onclick = () => window.open(rawUrl, '_blank');
+                  img.src = localUrl;
+                  img.onclick = () => window.open(localUrl, '_blank');
                   
                   const wrapper = document.createElement('div');
                   wrapper.className = 'screenshot-item'; 

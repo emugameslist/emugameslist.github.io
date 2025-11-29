@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 <title>EmuGames List</title>
-<meta name="description" content="Retro games catalog – screenshots, descriptions and gameplay videos." />
+<meta name="description" content="Retro games catalog" />
 <style>
+  /* 0. GLOBAL RESET & VARS */
   :root{
     --bg:#0c141a; 
     --bg-subtle:#121e27;
@@ -16,362 +17,343 @@
     --text-primary:#e6f0fa;
     --text-secondary:#a3b8c8;
     --border:#25394a;
-    --scrollbar-thumb:#3f5263; /* Более светлый цвет для скролла */
+    --scrollbar-thumb:#3f5263; 
+    --scrollbar-hover:#5a7285; /* Более темный цвет при наведении */
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   }
   
-  /* --- 2. ЯРКИЕ СКРОЛЛБАРЫ --- */
-  ::-webkit-scrollbar { width: 12px; height: 12px; }
-  ::-webkit-scrollbar-track { background: var(--bg); border-radius: 0; }
+  * { box-sizing: border-box; } /* 4. Важно для корректных размеров */
+
+  /* Скроллбары */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { 
-    background: var(--scrollbar-thumb); /* Светлее чем раньше */
-    border-radius: 0; 
+    background: var(--scrollbar-thumb); 
     border: 2px solid var(--bg); 
   }
-  ::-webkit-scrollbar-thumb:hover { background: var(--accent); } /* Ярко-синий при наведении */
+  ::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-hover); }
   
   html, body {
     height: 100%;
-    margin: 0;
-    padding: 0;
+    margin: 0; padding: 0;
     background: linear-gradient(180deg, #0a1118 0%, #0c141a 100%);
     color: var(--text-primary);
-    overflow: hidden; 
+    overflow: hidden; /* Запрет скролла страницы целиком */
   }
   
   .wrap {
-    /* 7. ИСПОЛЬЗУЕМ dvh ДЛЯ МОБИЛЬНЫХ БРАУЗЕРОВ */
-    height: 100vh; /* Fallback */
+    width: 100%;
+    /* 4. Использование dvh для точного попадания в видимую область */
+    height: 100vh; 
     height: 100dvh; 
     
-    max-width: 1400px; 
+    max-width: 1600px; /* Чуть шире, так как расширили сайдбар */
     margin: 0 auto;
     
-    /* 6. УМЕНЬШЕННЫЕ ОТСТУПЫ СВЕРХУ И СНИЗУ */
-    padding: 10px 15px 15px 15px; 
+    padding: 8px 12px 12px 12px; /* Компактные отступы */
     
-    box-sizing: border-box;
     display: grid;
-    grid-template-rows: auto 1fr; 
-    grid-template-columns: 320px 1fr; 
-    gap: 12px; /* Чуть плотнее */
+    /* Шапка (auto) и основная часть (занимает всё остальное) */
+    grid-template-rows: auto minmax(0, 1fr); 
+    /* 2. Расширенная левая колонка (было 320px) */
+    grid-template-columns: 380px 1fr; 
+    gap: 10px; 
   }
   
+  /* --- HEADER --- */
   header {
     grid-column: 1 / -1;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    /* 5, 6. УБРАНА ЛИНИЯ И ОТСТУПЫ */
-    padding-bottom: 4px;
-    border-bottom: none; 
-    min-height: 30px;
+    min-height: 28px;
+    padding: 0 4px;
   }
-  
-  header h1 { margin: 0; font-size: 18px; font-weight: 600; }
+  header h1 { margin: 0; font-size: 18px; font-weight: 600; line-height: 1; }
 
+  /* --- PANELS --- */
   .panel {
     background: var(--panel);
-    border-radius: 0;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
     border: 1px solid var(--border);
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    height: 100%;
+    height: 100%; /* Заполняет ячейку грида */
+    position: relative;
   }
 
-  aside.panel { padding: 10px; } /* 1. КОМПАКТНЕЕ */
+  aside.panel { padding: 10px; }
 
+  /* --- SEARCH AREA --- */
+  .search-group { margin-bottom: 8px; flex-shrink: 0; }
+  .lbl { color: var(--text-secondary); font-size: 11px; margin-bottom: 2px; display: block;}
+  
   .search {
     width: 100%;
-    /* 1. БОЛЕЕ УЗКИЕ ПОЛЯ */
-    padding: 8px; 
-    border-radius: 0;
+    padding: 6px 8px; 
     border: 1px solid var(--border);
     background: var(--card);
     color: var(--text-primary);
-    box-sizing: border-box;
-    margin-top: 5px;
     font-size: 13px;
+    height: 30px;
   }
 
   #system-select {
-    appearance: none; 
-    padding-right: 35px;
+    cursor: pointer;
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238a9ba8' stroke-width='2' stroke-linecap='square' stroke-linejoin='miter'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
     background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 14px 14px;
-    cursor: pointer;
+    background-position: right 8px center;
+    background-size: 12px 12px;
+    appearance: none;
   }
   
+  /* --- GAME LIST --- */
+  .list-header {
+    margin-top: 4px; 
+    margin-bottom: 6px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: flex-end;
+    flex-shrink: 0;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--border);
+  }
+
   #game-list-container {
     flex: 1; 
-    display: flex;
-    flex-direction: column;
+    position: relative;
     min-height: 0; 
-    margin-top: 10px;
   }
 
   #game-list {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
     overflow-y: auto; 
-    /* 4. ВЫРАВНИВАНИЕ ПРАВОГО КРАЯ (убираем padding справа) */
-    padding: 0; 
-    padding-right: 2px; /* Минимальный отступ для скролла */
+    /* 5. Отступ списка от скроллбара */
+    padding-right: 8px; 
   }
 
   .game-item {
-    /* 1. БОЛЕЕ УЗКИЕ ЭЛЕМЕНТЫ СПИСКА */
     padding: 8px 10px; 
-    border-radius: 0;
-    margin-bottom: 6px; /* Плотнее */
+    margin-bottom: 4px; 
     background: var(--card);
     cursor: pointer;
-    border: 1px solid var(--border);
-    transition: all 0.2s ease;
-  }
-  
-  .game-item:hover { border-color: var(--accent); transform: translateX(2px); }
-  .game-item.selected { border-color: var(--accent); background: rgba(77, 166, 255, 0.12); }
-  .meta { color: var(--text-secondary); font-size: 11px; margin-top: 2px; } /* Мелкий шрифт */
-
-  #details { padding: 10px; }
-
-  .tabs {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 8px;
-    padding-bottom: 8px;
+    border: 1px solid transparent; /* Чтобы не прыгало при ховере */
     border-bottom: 1px solid var(--border);
-    flex-shrink: 0;
-  }
-  
-  .tab {
-    /* 1. БОЛЕЕ УЗКИЕ КНОПКИ */
-    padding: 6px 14px; 
-    border-radius: 0;
-    background: var(--card);
-    cursor: pointer;
-    color: var(--text-secondary);
-    border: 1px solid var(--border);
-    font-size: 13px;
-    font-weight: 500;
-    transition: background 0.2s;
-  }
-  .tab:hover { background: var(--bg-subtle); }
-  .tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-
-  .tab-content {
-    flex: 1; 
-    position: relative;
-    overflow: hidden; 
+    
+    /* 2. Текст переносится, слова не режутся */
+    white-space: normal;
+    word-wrap: break-word; 
+    word-break: break-word; 
+    
     display: flex;
     flex-direction: column;
-    min-height: 0; /* ВАЖНО для вложенных flex-контейнеров */
+    justify-content: center;
+    transition: background 0.15s;
+  }
+  
+  .game-item:hover { background: var(--bg-subtle); border-color: var(--border); }
+  /* 4. Убрано смещение, только цвет */
+  .game-item.selected { 
+    background: rgba(77, 166, 255, 0.15); 
+    border-color: var(--accent); 
   }
 
-  /* --- SCREENSHOTS AREA --- */
-  #tab-screens {
+  .g-name { font-weight: 600; font-size: 13px; line-height: 1.3; color: #fff;}
+  .g-meta { font-size: 12px; color: var(--text-secondary); font-weight: 400; margin-left: 4px;}
+
+  /* --- MAIN CONTENT --- */
+  #details { padding: 0; }
+  
+  .content-pad {
+    padding: 10px;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* Header inside details */
+  .game-header {
+    flex-shrink: 0;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .gh-title { font-size: 18px; font-weight: 700; color: #fff; line-height: 1.2; }
+  .gh-sub { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+
+  /* TABS */
+  .tabs { display: flex; gap: 4px; margin-bottom: 0; flex-shrink: 0; }
+  .tab {
+    padding: 6px 16px; 
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-bottom: none;
+    color: var(--text-secondary);
+    font-size: 13px; cursor: pointer;
+  }
+  .tab:hover { color: var(--text-primary); }
+  .tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  .tab-body {
+    flex: 1;
+    border: 1px solid var(--border);
+    background: var(--bg); /* Контраст для контента */
+    position: relative;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     min-height: 0;
   }
 
+  /* SCREENSHOTS */
+  #tab-screens { height: 100%; display: flex; flex-direction: column; }
+  
   .screens-toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-    background: var(--bg-subtle);
-    padding: 6px 10px; /* Компактнее */
-    border-radius: 0;
-    border: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 6px 8px; background: var(--bg-subtle); border-bottom: 1px solid var(--border);
     flex-shrink: 0;
   }
-
-  .screens-controls { display: flex; align-items: center; gap: 8px; }
-
-  .screen-btn {
-    background: var(--card);
-    border: 1px solid var(--border);
-    color: var(--text-primary);
-    width: 26px; height: 26px; /* Меньше кнопки */
-    border-radius: 0;
-    cursor: pointer;
+  
+  .sc-controls { display: flex; gap: 8px; align-items: center; }
+  .btn-icon {
+    width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;
+    background: var(--card); border: 1px solid var(--border); color: var(--text-primary);
+    cursor: pointer; padding: 0;
+  }
+  .btn-icon:hover { border-color: var(--accent); color: var(--accent); }
+  
+  #screenshot-area {
+    flex: 1; position: relative; overflow: hidden;
     display: flex; align-items: center; justify-content: center;
-    font-size: 16px;
-    user-select: none;
+    background: #000;
   }
-
-  .screen-btn:hover { background: var(--accent); border-color: var(--accent); color: white; }
-
-  .screen-counter {
-    font-size: 12px; color: var(--text-secondary);
-    font-variant-numeric: tabular-nums; min-width: 30px; text-align: center;
-  }
-
-  #screenshot-wrapper {
-    flex: 1;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 0; /* Критично для адаптивности */
-    background: rgba(0,0,0,0.2); 
-    border-radius: 0;
-    border: 1px solid var(--border);
+  .screen-img {
+    max-width: 100%; max-height: 100%; width: auto; height: auto;
+    object-fit: contain; cursor: pointer;
   }
   
-  .screenshot-item {
-    /* 8. АДАПТИВНОСТЬ: Элемент занимает всё место, но не больше */
-    width: 100%;
-    height: 100%;
-    display: none; 
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    padding: 4px; 
-    overflow: hidden;
-  }
-
-  .screenshot-item.active { display: flex; }
-
-  .screens img {
-    /* 8. АДАПТИВНОСТЬ: Картинка не вылезает за пределы */
-    max-width: 100%;
-    max-height: 100%; 
-    width: auto;
-    height: auto;
-    object-fit: contain; 
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-    border-radius: 0;
-    
-    /* 9. КУРСОР РУКИ (ПАЛЕЦ) ПРИ НАВЕДЕНИИ */
-    cursor: pointer;
-  }
-
-  #tab-info, #tab-youtube {
-    overflow-y: auto;
-    height: 100%;
-    padding-right: 6px;
-  }
+  /* INFO & VIDEO */
+  #tab-info, #tab-youtube { padding: 15px; overflow-y: auto; }
+  .info-block { font-size: 14px; line-height: 1.5; white-space: pre-wrap; margin-top: 10px;}
+  .meta-row { font-size: 13px; margin-bottom: 6px; color: var(--text-secondary); }
+  .meta-val { color: var(--text-primary); font-weight: 500; }
   
-  #game-description {
-    white-space: pre-wrap; 
-    font-family: inherit;
-    color: var(--text-primary);
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px solid var(--border);
-    line-height: 1.5;
-    font-size: 14px;
-  }
+  iframe { border:0; width:100%; height:100%; }
 
-  .info-row { margin-bottom: 8px; line-height: 1.4; font-size: 14px; }
-  iframe { width: 100%; height: 100%; min-height: 300px; border: 0; border-radius: 0; }
-
-  /* --- MOBILE --- */
+  /* --- 5. MOBILE FIXES --- */
   @media(max-width: 900px){
-    .wrap { display: block; height: auto; overflow: auto; padding: 10px; max-width: 100%; }
-    html, body { overflow: auto; height: auto; }
-    .panel { height: auto; min-height: 500px; margin-bottom: 20px; }
-    #game-list-container { height: 350px; }
-    .wrap { grid-template-columns: 1fr; }
+    .wrap {
+      /* Переключаем на одну колонку */
+      grid-template-columns: 1fr;
+      /* 5. ФИКС: Три строки: Шапка, Список (фиксированный %), Детали (остальное) */
+      grid-template-rows: auto 35vh 1fr; 
+      height: 100dvh; /* Строго высота экрана */
+      overflow: hidden;
+      padding: 5px;
+      gap: 5px;
+    }
+    
+    header { min-height: auto; margin-bottom: 2px; }
+    header h1 { font-size: 16px; }
+    
+    /* Список игр на мобильном - свой скролл */
+    aside.panel { padding: 8px; }
+    
+    /* Для деталей убираем лишние паддинги */
+    .content-pad { padding: 8px; }
   }
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <h1>Retro Games Catalog</h1>
-      <div style="color:var(--text-secondary);font-size:12px">Screenshots · Info · Gameplay</div>
-    </header>
 
-    <aside class="panel">
-      <div style="flex-shrink: 0;"> 
-        <div style="margin-bottom:8px">
-          <label style="color:var(--text-secondary);font-size:12px" for="system-select">Systems</label>
-          <select id="system-select" class="search">
-            <option value="" disabled selected>Select a system...</option>
-          </select>
-        </div>
+<div class="wrap">
+  <header>
+    <h1>Retro Games Catalog</h1>
+    <div style="font-size:11px; color:var(--text-secondary)">v1.2</div>
+  </header>
 
-        <div style="margin-bottom:8px">
-          <label style="color:var(--text-secondary);font-size:12px">Search Games</label>
-          <input id="search" class="search" placeholder="Type game name..." />
-        </div>
+  <aside class="panel">
+    <div style="flex-shrink: 0;">
+      <div class="search-group">
+        <label class="lbl" for="system-select">System</label>
+        <select id="system-select" class="search">
+          <option value="" disabled selected>Loading...</option>
+        </select>
+      </div>
+
+      <div class="search-group">
+        <label class="lbl">Search</label>
+        <input id="search" class="search" placeholder="Filter games..." autocomplete="off" />
+      </div>
+
+      <div class="list-header">
+        <span class="lbl" style="font-weight:600; color:var(--text-primary)">Games List</span>
+        <span id="games-count" style="font-size:11px; color:var(--text-secondary)"></span>
+      </div>
+    </div>
+
+    <div id="game-list-container">
+      <div id="game-list"></div>
+    </div>
+  </aside>
+
+  <main class="panel" id="details">
+    
+    <div id="placeholder" style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:20px;">
+      <div style="font-size:16px; color:var(--text-primary); margin-bottom:8px;">Ready Player One</div>
+      <div style="font-size:13px; color:var(--text-secondary); max-width:250px;">
+        Select a system and a game from the list to view screenshots and details.
+      </div>
+    </div>
+
+    <div id="game-area" style="display:none;" class="content-pad">
+      
+      <div class="game-header">
+        <div id="game-title" class="gh-title"></div>
+        <div id="game-sub" class="gh-sub"></div>
+      </div>
+
+      <div class="tabs" id="tabs">
+        <div class="tab active" data-tab="screens">Screenshots</div>
+        <div class="tab" data-tab="info">Info</div>
+        <div class="tab" data-tab="youtube">Gameplay</div>
+      </div>
+
+      <div class="tab-body">
         
-        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:10px; padding-bottom:4px;">
-          <label style="color:var(--text-primary);font-weight:600;font-size:13px">Games List</label>
-          <span id="games-count" style="font-size:11px;color:var(--text-secondary)"></span>
-        </div>
-      </div>
-
-      <div id="game-list-container">
-        <div id="game-list"></div>
-      </div>
-    </aside>
-
-    <main class="panel" id="details">
-      <div id="placeholder" style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; color:var(--text-secondary); padding:20px;">
-        <div style="font-size:15px; margin-bottom:8px; color:var(--text-primary)">Select a System & Game</div>
-        <div style="font-size:13px; max-width:300px;">Browse the list on the left to view Screenshots, Info and Gameplay videos.</div>
-      </div>
-
-      <div id="game-area" style="display:none; flex: 1; flex-direction: column; height: 100%; overflow: hidden;">
-        
-        <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px; flex-shrink: 0;">
-          <div>
-            <div id="game-title" style="font-weight:700; font-size:18px; color: var(--text-primary); line-height:1.2;"></div>
-            <div id="game-sub" class="meta" style="font-size:12px; margin-top:2px;"></div>
+        <div id="tab-screens">
+          <div class="screens-toolbar" id="screens-toolbar">
+            <span style="font-size:11px; color:var(--muted)">Preview</span>
+            <div class="sc-controls">
+              <button id="prev-btn" class="btn-icon">‹</button>
+              <span id="screen-counter" style="font-size:12px; min-width:30px; text-align:center; tabular-nums:true;">0/0</span>
+              <button id="next-btn" class="btn-icon">›</button>
+            </div>
+          </div>
+          <div id="screenshot-area">
+             <div id="img-container" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;"></div>
+             <div id="screens-msg" style="position:absolute; color:var(--text-secondary); font-size:13px;">Loading...</div>
           </div>
         </div>
 
-        <div class="tabs" id="tabs">
-          <div class="tab active" data-tab="screens">Screenshots</div>
-          <div class="tab" data-tab="info">Info</div>
-          <div class="tab" data-tab="youtube">Gameplay</div>
+        <div id="tab-info" style="display:none;">
+          <div id="meta-container"></div>
+          <div id="game-description" class="info-block"></div>
         </div>
 
-        <div class="tab-content">
-          
-          <div id="tab-screens" style="display:block;">
-              <div class="screens-toolbar" id="screens-toolbar" style="display:none;">
-                  <span style="font-size:12px; font-weight:600; color:var(--text-secondary)">Preview</span>
-                  <div class="screens-controls">
-                      <button id="prev-btn" class="screen-btn">‹</button>
-                      <span id="screen-counter" class="screen-counter">0/0</span>
-                      <button id="next-btn" class="screen-btn">›</button>
-                  </div>
-              </div>
-
-              <div id="screenshot-wrapper">
-                  <div class="screens" id="screens-list" style="width:100%; height:100%;"></div>
-                  <div id="screens-empty" class="no-data" style="text-align:center; display:none; position:absolute; font-size:13px; color:var(--text-secondary);">
-                    Loading images...
-                  </div>
-              </div>
-          </div>
-
-          <div id="tab-info" style="display:none;">
-            <div id="info-meta"></div> 
-            <div id="game-description"></div> 
-          </div>
-
-          <div id="tab-youtube" style="display:none;">
-            <div id="youtube-area"></div>
-          </div>
-
+        <div id="tab-youtube" style="display:none;">
+          <div id="yt-container" style="height:100%"></div>
         </div>
+
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
+</div>
 
 <script>
-/* === INI parser === */
+/* --- UTILS --- */
 function parseIni(text){
   const result = {}; let section = null;
   text = text.replace(/\ufeff/g, '').replace(/\r\n/g,'\n').replace(/\r/g,'\n');
@@ -392,293 +374,270 @@ function parseIni(text){
   return result;
 }
 
-async function fetchIniFile(path){
-  try{
+// Натуральная сортировка (1, 2, 10 вместо 1, 10, 2)
+const collator = new Intl.Collator(undefined, {numeric: true, sensitivity: 'base'});
+
+async function fetchFile(path, type='text'){
+  try {
     const r = await fetch(path, {cache:'no-cache'});
-    if (!r.ok) return null;
-    const buffer = await r.arrayBuffer();
-    const decoder = new TextDecoder('utf-16le');
-    return parseIni(decoder.decode(buffer));
-  }catch(e){ console.error(e); return null; }
+    if(!r.ok) return null;
+    const buf = await r.arrayBuffer();
+    const decoder = new TextDecoder(type==='ini'?'utf-16le':'utf-8');
+    return type==='ini' ? parseIni(decoder.decode(buf)) : decoder.decode(buf);
+  } catch(e) { console.warn('Fetch error:', path); return null; }
 }
 
-async function fetchInfoText(path) {
-    try {
-        const r = await fetch(path, { cache: 'no-cache' });
-        if (!r.ok) return null;
-        const buffer = await r.arrayBuffer();
-        const decoder = new TextDecoder('utf-8');
-        return decoder.decode(buffer);
-    } catch (e) {
-        console.warn("Failed to load Info.txt", e);
-        return null;
-    }
-}
+/* --- STATE --- */
+const els = {
+  sysSelect: document.getElementById('system-select'),
+  list: document.getElementById('game-list'),
+  search: document.getElementById('search'),
+  count: document.getElementById('games-count'),
+  placeholder: document.getElementById('placeholder'),
+  gameArea: document.getElementById('game-area'),
+  tabs: document.getElementById('tabs'),
+  
+  // Content
+  title: document.getElementById('game-title'),
+  sub: document.getElementById('game-sub'),
+  desc: document.getElementById('game-description'),
+  meta: document.getElementById('meta-container'),
+  yt: document.getElementById('yt-container'),
+  
+  // Screens
+  screenWrap: document.getElementById('img-container'),
+  screenMsg: document.getElementById('screens-msg'),
+  screenCounter: document.getElementById('screen-counter'),
+  prev: document.getElementById('prev-btn'),
+  next: document.getElementById('next-btn'),
+  toolbar: document.getElementById('screens-toolbar')
+};
 
-/* === STATE === */
-const systemSelectEl = document.getElementById('system-select'); 
-const gameListEl = document.getElementById('game-list');
-const searchInput = document.getElementById('search');
-const prevBtn = document.getElementById('prev-btn');
-const nextBtn = document.getElementById('next-btn');
-const counterEl = document.getElementById('screen-counter');
-const toolbarEl = document.getElementById('screens-toolbar');
+let appState = {
+  games: [],
+  filtered: [],
+  currentG: null,
+  screens: [],
+  screenIdx: 0
+};
 
-let allGames = [];
-let shownGames = [];
-let currentGame = null;
-let currentScreenshots = []; 
-let currentScreenIndex = 0; 
-let gameItemElements = new Map(); 
-
-const GITHUB_USERNAME = 'imadering';
-const GITHUB_REPO_NAME = 'emugames-list';
-
-function showDefaultView() {
-  document.getElementById('placeholder').style.display = 'flex';
-  document.getElementById('game-area').style.display = 'none';
-  currentGame = null;
-  gameItemElements.forEach(el => el.classList.remove('selected'));
-}
-
+/* --- CORE --- */
 async function init(){
-  showDefaultView();
+  const sysData = await fetchFile('Systems.ini', 'ini');
+  els.sysSelect.innerHTML = '<option value="" disabled selected>Select System</option>';
   
-  const systems = await fetchIniFile('Systems.ini');
-  systemSelectEl.innerHTML = '<option value="" disabled selected>Select a system...</option>';
-  
-  if (systems){
-    for (const sec of Object.keys(systems)){
-      const dir = systems[sec]['Dir'] || sec; 
-      const option = document.createElement('option');
-      option.value = dir;
-      option.textContent = sec;
-      systemSelectEl.appendChild(option);
+  if(sysData){
+    for(const key of Object.keys(sysData)){
+      const opt = document.createElement('option');
+      opt.value = sysData[key]['Dir'] || key;
+      opt.textContent = key;
+      els.sysSelect.appendChild(opt);
     }
   }
-
-  systemSelectEl.addEventListener('change', (e) => {
-    showDefaultView();
-    if (e.target.value) {
-      loadGamesForSystem(e.target.value);
-    } else {
-      gameListEl.innerHTML = '';
-      document.getElementById('games-count').textContent = '';
-    }
+  
+  els.sysSelect.addEventListener('change', e => loadSystem(e.target.value));
+  els.search.addEventListener('input', renderList);
+  els.prev.onclick = () => navScreen(-1);
+  els.next.onclick = () => navScreen(1);
+  
+  els.tabs.addEventListener('click', e => {
+    const t = e.target.closest('.tab');
+    if(!t) return;
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    
+    const mode = t.dataset.tab;
+    document.getElementById('tab-screens').style.display = mode==='screens'?'flex':'none';
+    document.getElementById('tab-info').style.display = mode==='info'?'block':'none';
+    document.getElementById('tab-youtube').style.display = mode==='youtube'?'block':'none';
   });
-  
-  prevBtn.addEventListener('click', () => changeScreenshot(-1));
-  nextBtn.addEventListener('click', () => changeScreenshot(1));
 }
 
-async function loadGamesForSystem(systemDir){
-  gameListEl.innerHTML = '<div style="padding:10px;color:var(--muted)">Loading games...</div>';
+// 1. Загрузка и сортировка (Emulators -> Games -> Demos)
+async function loadSystem(dir){
+  resetView();
+  els.list.innerHTML = '<div style="padding:10px; color:var(--muted)">Loading...</div>';
   
-  const candidates = [
-    { file: `Systems/${encodeURIComponent(systemDir)}/Games.ini`, source: 'Games' },
-    { file: `Systems/${encodeURIComponent(systemDir)}/Emulators.ini`, source: 'Emulators' },
-    { file: `Systems/${encodeURIComponent(systemDir)}/Demos.ini`, source: 'Demos' }
-  ];
-  const merged = {};
-  
-  for (const { file, source } of candidates){
-    const data = await fetchIniFile(file);
-    if (!data) continue;
-    for (const sec of Object.keys(data)){
-      const uniqueKey = `${source}||${sec}`; 
-      merged[uniqueKey] = { ...data[sec], __source: source }; 
-    }
+  const order = ['Emulators', 'Games', 'Demos'];
+  let tempGames = [];
+
+  for(const type of order){
+    const data = await fetchFile(`Systems/${encodeURIComponent(dir)}/${type}.ini`, 'ini');
+    if(!data) continue;
+    
+    // Преобразуем объект в массив
+    let group = Object.values(data).map((obj, idx) => ({
+      rawId: idx,
+      name: obj['Name'] || obj['NAME'] || obj['name'] || '',
+      dir: obj['Dir'] || obj['DIR'] || obj['dir'] || '',
+      year: obj['Year'] || obj['year'] || '',
+      rating: obj['Rating'] || obj['rating'] || '',
+      comment: obj['Comment'] || obj['COMMENT'] || '',
+      found: obj['Found'] || obj['found'] || '',
+      source: type
+    })).filter(g => g.name || g.dir);
+
+    // Сортировка внутри группы по алфавиту (натуральная)
+    group.sort((a, b) => collator.compare(a.name, b.name));
+
+    tempGames = tempGames.concat(group);
   }
 
-  allGames = Object.values(merged).map((obj, idx) => ({
-    id: idx,
-    name: obj['Name'] || obj['NAME'] || obj['name'] || '',
-    dir: obj['Dir'] || obj['DIR'] || obj['dir'] || '',
-    year: obj['Year'] || obj['year'] || '',
-    rating: obj['Rating'] || obj['rating'] || '',
-    comment: obj['Comment'] || obj['COMMENT'] || '',
-    found: obj['Found'] || obj['found'] || '',
-    source: obj['__source'] || 'Games' 
-  })).filter(g => g.name || g.dir); 
-  
-  renderGameList();
+  appState.games = tempGames.map((g, i) => ({...g, id: i})); // Переназначаем ID сквозным
+  renderList();
 }
 
-function renderGameList(){
-  const q = (searchInput.value||'').toLowerCase();
-  shownGames = allGames.filter(g => (g.name||'').toLowerCase().includes(q));
-  gameListEl.innerHTML = '';
-  gameItemElements.clear();
+function renderList(){
+  const q = (els.search.value || '').toLowerCase();
+  appState.filtered = appState.games.filter(g => g.name.toLowerCase().includes(q));
   
-  document.getElementById('games-count').textContent = `${shownGames.length}`;
+  els.list.innerHTML = '';
+  els.count.textContent = appState.filtered.length;
 
-  if (shownGames.length===0){
-    gameListEl.innerHTML = '<div class="no-data" style="padding:10px; font-size:13px;">No games found.</div>';
+  if(appState.filtered.length === 0){
+    els.list.innerHTML = '<div style="padding:15px; text-align:center; color:var(--muted)">No games found</div>';
     return;
   }
+
+  // Virtual render is not needed for <1000 games usually, but simple DOM is fine
+  const frag = document.createDocumentFragment();
   
-  for (const g of shownGames){
+  appState.filtered.forEach(g => {
     const el = document.createElement('div');
     el.className = 'game-item';
-    if (currentGame && currentGame.id === g.id) el.classList.add('selected');
+    if(appState.currentG && appState.currentG.id === g.id) el.classList.add('selected');
     
-    el.innerHTML = `<div style="font-weight:600; font-size:13px;">${escapeHtml(g.name)}</div>
-      <div class="meta">${escapeHtml(g.dir)} ${g.year ? ' • ' + g.year : ''} ${g.rating ? ' • ⭐'+g.rating : ''}</div>`;
-    el.onclick = () => showGame(g);
-    gameListEl.appendChild(el);
-    gameItemElements.set(g.id, el);
-  }
-}
-
-async function showGame(g){
-  currentGame = g;
-  gameItemElements.forEach((el, id) => {
-    el.classList.toggle('selected', id === g.id);
+    // 3. Формат: Имя (Год) Rating. Без Dir.
+    let metaHTML = '';
+    if(g.year) metaHTML += `(${g.year}) `;
+    if(g.rating) metaHTML += `⭐${g.rating}`;
+    
+    el.innerHTML = `
+      <div class="g-name">${escapeHtml(g.name)} <span class="g-meta">${metaHTML}</span></div>
+    `;
+    
+    el.onclick = () => loadGame(g, el);
+    frag.appendChild(el);
   });
   
-  document.getElementById('placeholder').style.display = 'none';
-  document.getElementById('game-area').style.display = 'flex';
+  els.list.appendChild(frag);
+}
+
+async function loadGame(g, elBtn){
+  appState.currentG = g;
   
-  document.getElementById('game-title').textContent = g.name || 'Unknown Title';
-  document.getElementById('game-sub').textContent = `${g.dir} (${g.source})`;
+  // Highlight
+  document.querySelectorAll('.game-item').forEach(x => x.classList.remove('selected'));
+  if(elBtn) elBtn.classList.add('selected');
+
+  // UI
+  els.placeholder.style.display = 'none';
+  els.gameArea.style.display = 'flex';
   
-  // Info Meta
-  document.getElementById('info-meta').innerHTML = `
-    <div class="info-row"><strong>Title:</strong> ${escapeHtml(g.name)}</div>
-    <div class="info-row"><strong>Directory:</strong> ${escapeHtml(g.dir)}</div>
-    <div class="info-row"><strong>Category:</strong> ${escapeHtml(g.source)}</div>
-    <div class="info-row"><strong>Year:</strong> ${escapeHtml(g.year || 'N/A')}</div>
-    <div class="info-row"><strong>Rating:</strong> ⭐ ${escapeHtml(g.rating || 'N/A')}</div>
-    <div class="info-row"><strong>Found:</strong> ${escapeHtml(g.found || 'No')}</div>
+  // Header
+  els.title.textContent = g.name;
+  els.sub.textContent = `${els.sysSelect.options[els.sysSelect.selectedIndex].text} / ${g.source}`;
+  
+  // Meta
+  els.meta.innerHTML = `
+    <div class="meta-row">Directory: <span class="meta-val">${escapeHtml(g.dir)}</span></div>
+    <div class="meta-row">Year: <span class="meta-val">${escapeHtml(g.year||'-')}</span></div>
+    <div class="meta-row">Rating: <span class="meta-val">${g.rating ? '⭐'+g.rating : '-'}</span></div>
   `;
   
-  // Info Text
-  const descriptionEl = document.getElementById('game-description');
-  descriptionEl.textContent = 'Loading details...';
+  // Description (Info.txt)
+  els.desc.textContent = 'Loading info...';
+  const infoPath = `Systems/${els.sysSelect.value}/${g.source}/${g.dir}/Info.txt`;
+  const infoTxt = await fetchFile(infoPath, 'text');
+  els.desc.textContent = infoTxt || g.comment || 'No description available.';
+
+  // YouTube
+  const q = encodeURIComponent(g.name + ' gameplay');
+  els.yt.innerHTML = `<iframe src="https://www.youtube.com/embed?listType=search&list=${q}" allowfullscreen></iframe>`;
+
+  // Screenshots
+  loadScreens(g);
   
-  const infoPath = `Systems/${systemSelectEl.value}/${g.source}/${g.dir}/Info.txt`;
-  const infoText = await fetchInfoText(infoPath);
-  
-  if (infoText) {
-      descriptionEl.textContent = infoText;
-  } else {
-      descriptionEl.textContent = g.comment ? `Comment from INI:\n${g.comment}` : 'No additional details available.';
-  }
-
-  // Youtube
-  const yt = document.getElementById('youtube-area');
-  if(g.name) {
-      const q = encodeURIComponent(g.name + ' gameplay');
-      yt.innerHTML = `<iframe src="https://www.youtube.com/embed?listType=search&list=${q}" allowfullscreen></iframe>`;
-  } else {
-      yt.innerHTML = 'No name for search.';
-  }
-
-  // Reset tabs
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelector('.tab[data-tab="screens"]').classList.add('active');
-  document.getElementById('tab-screens').style.display = 'block';
-  document.getElementById('tab-info').style.display = 'none';
-  document.getElementById('tab-youtube').style.display = 'none';
-
-  loadScreenshots(g);
+  // Reset Tabs
+  document.querySelector('.tab[data-tab="screens"]').click();
 }
 
-async function loadScreenshots(g) {
-  const screensList = document.getElementById('screens-list');
-  screensList.innerHTML = '';
-  currentScreenshots = [];
-  currentScreenIndex = 0;
-  
-  toolbarEl.style.display = 'none';
-  document.getElementById('screens-empty').style.display = 'block';
-  document.getElementById('screens-empty').textContent = 'Loading...';
+// 1. Загрузка скриншотов (Относительные пути)
+async function loadScreens(g){
+  appState.screens = [];
+  appState.screenIdx = 0;
+  els.screenWrap.innerHTML = '';
+  els.toolbar.style.display = 'none';
+  els.screenMsg.style.display = 'block';
+  els.screenMsg.textContent = 'Checking images...';
 
-  const baseFolder = `Systems/${systemSelectEl.value}/${g.source}/${g.dir}`;
-  const jsonUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO_NAME}/main/${encodeURIComponent(baseFolder)}/images.json`;
+  const sysDir = encodeURIComponent(els.sysSelect.value);
+  const typeDir = encodeURIComponent(g.source);
+  const gameDir = encodeURIComponent(g.dir);
   
+  // Путь к images.json относительно корня
+  const basePath = `Systems/${sysDir}/${typeDir}/${gameDir}`;
+  const jsonPath = `${basePath}/images.json`;
+
   try {
-      const response = await fetch(jsonUrl);
-      
-      if (response.ok) {
-          const imagesArray = await response.json();
-          
-          if (Array.isArray(imagesArray) && imagesArray.length > 0) {
-              document.getElementById('screens-empty').style.display = 'none';
-              
-              imagesArray.forEach((filename) => {
-                  const rawUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO_NAME}/main/${encodeURIComponent(baseFolder)}/${encodeURIComponent(filename)}`;
-
-                  const img = new Image();
-                  img.src = rawUrl;
-                  img.onclick = () => window.open(rawUrl, '_blank');
-                  
-                  const wrapper = document.createElement('div');
-                  wrapper.className = 'screenshot-item'; 
-                  wrapper.appendChild(img);
-                  
-                  currentScreenshots.push({ element: wrapper });
-                  screensList.appendChild(wrapper);
-              });
-              
-              toolbarEl.style.display = 'flex';
-              updateScreenshotDisplay();
-              return;
-          }
+    const r = await fetch(jsonPath);
+    if(r.ok){
+      const list = await r.json();
+      if(Array.isArray(list) && list.length > 0){
+        // Формируем список URL
+        appState.screens = list.map(f => `${basePath}/${f}`); // Имена файлов из JSON обычно не энкодятся повторно, если только там нет спецсимволов
+        
+        els.screenMsg.style.display = 'none';
+        els.toolbar.style.display = 'flex';
+        showScreen(0);
+        return;
       }
-      
-      throw new Error("No images list");
-
-  } catch (error) {
-      console.warn("Screenshots error:", error);
-      document.getElementById('screens-empty').textContent = 'Screenshots not found.';
-  }
+    }
+  } catch(e){ console.log('No images.json', e); }
+  
+  els.screenMsg.textContent = 'No screenshots found.';
 }
 
-function updateScreenshotDisplay() {
-    const total = currentScreenshots.length;
-    if (total === 0) return;
-    
-    currentScreenshots.forEach((item, index) => {
-        if (index === currentScreenIndex) {
-            item.element.classList.add('active');
-        } else {
-            item.element.classList.remove('active');
-        }
-    });
+function showScreen(idx){
+  if(!appState.screens.length) return;
+  appState.screenIdx = idx;
+  
+  // Loop
+  if(appState.screenIdx < 0) appState.screenIdx = appState.screens.length - 1;
+  if(appState.screenIdx >= appState.screens.length) appState.screenIdx = 0;
 
-    counterEl.textContent = `${currentScreenIndex + 1}/${total}`;
-
-    prevBtn.disabled = total <= 1;
-    nextBtn.disabled = total <= 1;
-    prevBtn.style.opacity = total <= 1 ? 0.5 : 1;
-    nextBtn.style.opacity = total <= 1 ? 0.5 : 1;
+  const url = appState.screens[appState.screenIdx];
+  els.screenCounter.textContent = `${appState.screenIdx+1}/${appState.screens.length}`;
+  
+  els.screenWrap.innerHTML = '';
+  const img = new Image();
+  img.className = 'screen-img';
+  img.src = url;
+  img.onclick = () => window.open(url, '_blank');
+  els.screenWrap.appendChild(img);
+  
+  // Disable btns if single
+  const single = appState.screens.length <= 1;
+  els.prev.disabled = single; 
+  els.next.disabled = single;
+  els.prev.style.opacity = single ? 0.3 : 1;
+  els.next.style.opacity = single ? 0.3 : 1;
 }
 
-function changeScreenshot(delta) {
-    if (currentScreenshots.length === 0) return;
-    currentScreenIndex += delta;
-    if (currentScreenIndex < 0) currentScreenIndex = currentScreenshots.length - 1;
-    if (currentScreenIndex >= currentScreenshots.length) currentScreenIndex = 0;
-    updateScreenshotDisplay();
+function navScreen(d) { showScreen(appState.screenIdx + d); }
+
+function resetView(){
+  els.placeholder.style.display = 'flex';
+  els.gameArea.style.display = 'none';
+  appState.games = [];
+  appState.currentG = null;
+  els.list.innerHTML = '';
+  els.count.textContent = '';
 }
-
-document.getElementById('tabs').addEventListener('click', (e)=>{
-  const t = e.target.closest('.tab');
-  if (!t) return;
-  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-  t.classList.add('active');
-  const tabName = t.dataset.tab;
-  document.getElementById('tab-screens').style.display = tabName==='screens' ? 'block' : 'none';
-  document.getElementById('tab-info').style.display = tabName==='info' ? 'block' : 'none';
-  document.getElementById('tab-youtube').style.display = tabName==='youtube' ? 'block' : 'none';
-});
-
-searchInput.addEventListener('input', () => renderGameList());
 
 function escapeHtml(s){
-  if (!s) return '';
-  return s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+  if(!s) return '';
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
 init();
