@@ -13,3 +13,5 @@ Load from tape and run:
 C100R
 300.06E5R
 300R
+
+Gameplay: https://youtu.be/dQqwnTrl0ZM

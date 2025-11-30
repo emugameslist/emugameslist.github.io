@@ -6,3 +6,5 @@ C100R
 4A.00FFR 800.0FFFR
 E2B3R
 RUN
+
+Gameplay: https://youtu.be/NC0I4lWH20E
