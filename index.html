@@ -155,7 +155,10 @@
     border-radius: 4px;
   }
   
-  .game-item:hover { background: var(--bg-subtle); border-color: var(--accent); }
+  @media (hover: hover) {
+    .game-item:hover { background: var(--bg-subtle); border-color: var(--accent); }
+  }
+  .game-item:active { background: var(--bg-subtle); border-color: var(--accent); }
   .game-item.selected { background: rgba(77, 166, 255, 0.15); border-color: var(--accent); } /* Adjusted selected bg for dark theme */
 
   .g-name { font-weight: 500; font-size: 15px; line-height: 1.4; color: var(--text-primary);}
