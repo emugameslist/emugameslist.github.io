@@ -255,7 +255,7 @@
   @media(max-width: 900px){
     .wrap {
       grid-template-columns: 1fr;
-      grid-template-rows: auto 40vh 1fr; 
+      grid-template-rows: auto 38vh 1fr; 
       height: 100dvh; overflow: hidden;
       padding: 8px; gap: 8px;
     }
@@ -622,7 +622,7 @@ async function loadGame(g, elBtn){
 
   let videoId = null;
   if (safeInfo) {
-    const match = safeInfo.match(/Gameplay:\s*(https?:\/\/[^\s]+)/);
+    const match = safeInfo.match(/(?:Gameplay|Video):\s*(https?:\/\/[^\s]+)/);
     if (match && match[1]) {
       const idMatch = match[1].match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i);
       if (idMatch && idMatch[1]) videoId = idMatch[1];
@@ -636,18 +636,14 @@ async function loadGame(g, elBtn){
         <iframe src="https://www.youtube.com/embed/${videoId}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
     `;
-    // 4. FIX: Если видео есть и мы были на вкладке YouTube, ничего не меняем (остаемся на ней).
-    // Если мы были на другой вкладке, тоже ничего не меняем (остаемся на ней).
   } else {
     els.tabBtnYt.style.display = 'none';
     els.yt.innerHTML = '';
-    // 4. FIX: Если видео НЕТ, но мы были на вкладке YouTube, переключаемся на Screens.
     if (appState.activeTab === 'youtube') appState.activeTab = 'screens';
   }
 
   loadScreens(g, null, sysDir);
   
-  // Обновляем UI табов
   document.querySelectorAll('.tab').forEach(x => {
     if(x.dataset.tab === appState.activeTab) x.classList.add('active');
     else x.classList.remove('active');
