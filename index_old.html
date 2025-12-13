@@ -8,39 +8,49 @@
 <style>
   /* 0. GLOBAL RESET & VARS */
   :root{
-    /* Lightened Theme */
-    --bg: #1b262f;         
-    --bg-subtle: #24303b;  
-    --panel: #2a3744;      
-    --muted: #9baebd;      
+    /* 1. DARKER THEME ADJUSTMENTS */
+    --bg: #12181e;         
+    --bg-subtle: #1a222a;  
+    --panel: #1e2732;      
+    --muted: #7a8c9e;      
     --accent: #4da6ff;
-    --card: #324150;       
-    --text-primary: #f0f6fc;
-    --text-secondary: #b0c4d6;
-    --border: #3e5263;     
-    --scrollbar-thumb: #52667a; 
-    --scrollbar-hover: #697f94; 
+    --card: #25303b;       
+    --text-primary: #e6edf5;
+    --text-secondary: #94aabf;
+    --border: #304050;     
+    --scrollbar-thumb: #3e4e5e; 
+    --scrollbar-hover: #52667a; 
     
-    font-family: Roboto, Arial, sans-serif;
+    font-family: Arial, sans-serif;
   }
   
   * { box-sizing: border-box; }
 
-  /* 3. SCROLLBARS - Скругление добавлено здесь */
+  /* 3. SCROLLBARS */
   ::-webkit-scrollbar { width: 16px; height: 16px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
+  
+  /* 2. Закругление трека скроллбара */
+  ::-webkit-scrollbar-track { 
+    background: var(--bg); 
+    border-radius: 6px; 
+    margin: 2px;
+  }
+  
   ::-webkit-scrollbar-thumb { 
     background: var(--scrollbar-thumb); 
     border: 3px solid var(--bg);
     background-clip: padding-box;
-    border-radius: 6px; /* 2. СКРУГЛЕНИЕ УГЛОВ СКРОЛЛБАРА */
+    border-radius: 6px; 
   }
   ::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-hover); }
+
+  /* 3. Исправление белого уголка между скроллбарами */
+  ::-webkit-scrollbar-corner { background: var(--bg); }
   
   html, body {
     height: 100%;
     margin: 0; padding: 0;
-    background: linear-gradient(180deg, #162028 0%, #1b262f 100%);
+    background: linear-gradient(180deg, #0e141a 0%, #12181e 100%); /* Darker gradient */
     color: var(--text-primary);
     overflow: hidden; 
     font-size: 16px; 
@@ -156,9 +166,9 @@
   }
   
   .game-item:hover { background: var(--bg-subtle); border-color: var(--accent); }
-  .game-item.selected { background: rgba(77, 166, 255, 0.2); border-color: var(--accent); }
+  .game-item.selected { background: rgba(77, 166, 255, 0.15); border-color: var(--accent); } /* Adjusted selected bg for dark theme */
 
-  .g-name { font-weight: 500; font-size: 15px; line-height: 1.4; color: #fff;}
+  .g-name { font-weight: 500; font-size: 15px; line-height: 1.4; color: var(--text-primary);}
   
   #details { padding: 0; }
   
@@ -170,7 +180,7 @@
     flex-shrink: 0; margin-bottom: 12px; padding-bottom: 0;
     border-bottom: none; 
   }
-  .gh-title { font-size: 20px; font-weight: 700; color: #fff; line-height: 1.3; }
+  .gh-title { font-size: 20px; font-weight: 700; color: var(--text-primary); line-height: 1.3; }
 
   .tabs-bar {
     display: flex; justify-content: space-between; align-items: flex-end;
@@ -228,7 +238,7 @@
   
   #tab-info, #tab-youtube { padding: 20px; overflow-y: auto; }
   
-  .info-block { font-size: 16px; line-height: 1.6; white-space: pre-wrap; margin-top: 0; color: #dce6f0; }
+  .info-block { font-size: 16px; line-height: 1.6; white-space: pre-wrap; margin-top: 0; color: var(--text-primary); }
   
   .embed-container {
     position: relative;
@@ -241,6 +251,10 @@
   .embed-container iframe {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;
   }
+  
+  /* Link styling for placeholder */
+  .ph-link { color: var(--accent); text-decoration: none; transition: opacity 0.2s; }
+  .ph-link:hover { opacity: 0.8; text-decoration: underline; }
 
   @media(max-width: 900px){
     .wrap {
@@ -267,7 +281,7 @@
 
 <div class="wrap">
   <header>
-    <h1>Retro Games Catalog</h1>
+    <h1>EmuGames List</h1>
     <div style="font-size:12px; color:var(--text-secondary)">v1.8</div>
   </header>
 
@@ -301,9 +315,13 @@
 
   <main class="panel" id="details">
     <div id="placeholder" style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:20px;">
-      <div style="font-size:20px; font-weight:500; color:var(--text-primary); margin-bottom:10px;">Ready Player One</div>
-      <div style="font-size:15px; color:var(--text-secondary); max-width:300px; line-height:1.5;">
-        Select a system and a game from the list.
+      <div style="font-size:20px; font-weight:500; color:var(--text-primary); margin-bottom:16px;">Private Initiative Project</div>
+      <div style="font-size:15px; color:var(--text-secondary); max-width:400px; line-height:1.6;">
+        This is a private initiative project to compile a list of old video games runnable on emulators.
+        <br><br>
+        If you want to support the project:<br>
+        Subscribe to YouTube: <a href="https://www.youtube.com/@EmuGamesList" target="_blank" class="ph-link">@EmuGamesList</a><br>
+        Donate: <a href="https://boosty.to/topretrogames" target="_blank" class="ph-link">Boosty</a>
       </div>
     </div>
 
@@ -427,7 +445,6 @@ async function init(){
     }
   }
   
-  // Здесь обычный change. Логика сброса value внутри loadSystem.
   els.sysSelect.addEventListener('change', e => {
     if(e.target.value) loadSystem(e.target.value);
   });
@@ -467,19 +484,22 @@ function clearGameView(){
   els.screenMsg.style.display = 'block';
   els.screenMsg.textContent = 'Loading...';
   
+  // 4. FIX: Не сбрасываем activeTab здесь принудительно, если это youtube.
+  // Логика переноса вкладки будет в loadGame.
   els.tabBtnYt.style.display = 'none';
-  if(appState.activeTab === 'youtube') {
+}
+
+async function loadSystem(dir){
+  clearGameView();
+  // Если была вкладка youtube, при смене системы логичнее сбросить на screens,
+  // так как игра еще не выбрана.
+  if (appState.activeTab === 'youtube') {
       appState.activeTab = 'screens';
       document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
       document.querySelector('[data-tab="screens"]').classList.add('active');
       updateTabContent();
   }
-}
-
-async function loadSystem(dir){
-  clearGameView();
   
-  // 1. СБРОС СКРОЛЛА ИНФОРМАЦИИ ПРИ СМЕНЕ СИСТЕМЫ
   document.getElementById('tab-info').scrollTop = 0;
   document.getElementById('tab-youtube').scrollTop = 0;
 
@@ -487,15 +507,9 @@ async function loadSystem(dir){
   els.gameArea.style.display = 'none';
   els.list.innerHTML = '<div style="padding:15px; color:var(--muted)">Loading...</div>';
 
-  // 3. ЛОГИКА ДЛЯ ПОВТОРНОГО ВЫБОРА (RE-SELECT HACK)
-  // Находим текст выбранной опции
   const selectedOpt = [...els.sysSelect.options].find(o => o.value === dir);
   if(selectedOpt) {
-    // Ставим текст выбранной системы в плейсхолдер (первый скрытый элемент)
     els.sysSelect.options[0].textContent = selectedOpt.textContent;
-    // Сбрасываем значение селекта на пустое. 
-    // Визуально останется текст (из плейсхолдера), но технически select пуст.
-    // Следующий клик по той же системе вызовет событие change (пусто -> система).
     els.sysSelect.value = "";
   }
   
@@ -531,14 +545,23 @@ async function loadSystem(dir){
     els.placeholder.style.display = 'none';
     els.gameArea.style.display = 'flex';
     
-    // Используем сохраненное имя из плейсхолдера, т.к. value уже сброшено
     els.title.innerHTML = els.sysSelect.options[0].textContent;
     els.desc.textContent = sysInfoTxt;
     loadScreens(null, sysInfoPath);
   } else {
     els.placeholder.style.display = 'flex';
     els.gameArea.style.display = 'none';
-    document.querySelector('#placeholder div:first-child').textContent = els.sysSelect.options[0].textContent;
+    
+    // Обновляем текст плейсхолдера для системы, но сохраняем структуру приветствия при старте
+    // Для этого проверяем, выбрана ли система
+    // В данном контексте система выбрана.
+    // Скрываем дефолтный текст плейсхолдера и показываем просто имя системы? 
+    // В оригинале просто менялся текст.
+    // Вернем как было в оригинале, но с учетом новой верстки
+    const phTitle = document.querySelector('#placeholder div:first-child');
+    const phBody = document.querySelector('#placeholder div:nth-child(2)');
+    if(phTitle) phTitle.textContent = els.sysSelect.options[0].textContent;
+    if(phBody) phBody.innerHTML = 'Select a game from the list.';
   }
 }
 
@@ -589,13 +612,6 @@ async function loadGame(g, elBtn){
   els.title.innerHTML = getGameDisplayText(g);
   
   els.desc.textContent = 'Loading info...';
-  const infoPath = `Systems/${els.sysSelect.options[0].textContent}/${g.source}/${g.dir}/Info.txt`;
-  // Внимание: мы используем options[0].textContent, так как value селекта сброшено!
-  // Но нам нужен именно путь папки (dir). 
-  // Исправление: нам нужно восстановить DIR системы.
-  // Мы не сохранили dir системы глобально, но он есть в options[0] (текст). Нет, там имя.
-  // Правильный путь: восстановить dir из атрибута или переменной.
-  // Чтобы не усложнять, найдем option по тексту плейсхолдера.
   const sysName = els.sysSelect.options[0].textContent;
   const sysOpt = [...els.sysSelect.options].find(o => o.textContent === sysName && !o.disabled);
   const sysDir = sysOpt ? sysOpt.value : sysName; 
@@ -622,14 +638,18 @@ async function loadGame(g, elBtn){
         <iframe src="https://www.youtube.com/embed/${videoId}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
     `;
+    // 4. FIX: Если видео есть и мы были на вкладке YouTube, ничего не меняем (остаемся на ней).
+    // Если мы были на другой вкладке, тоже ничего не меняем (остаемся на ней).
   } else {
     els.tabBtnYt.style.display = 'none';
     els.yt.innerHTML = '';
+    // 4. FIX: Если видео НЕТ, но мы были на вкладке YouTube, переключаемся на Screens.
     if (appState.activeTab === 'youtube') appState.activeTab = 'screens';
   }
 
   loadScreens(g, null, sysDir);
   
+  // Обновляем UI табов
   document.querySelectorAll('.tab').forEach(x => {
     if(x.dataset.tab === appState.activeTab) x.classList.add('active');
     else x.classList.remove('active');
@@ -648,7 +668,6 @@ async function loadScreens(g, customPath = null, sysDirOverride = null){
   if (customPath) {
     basePath = customPath;
   } else {
-    // Получаем dir системы
     let sDir = sysDirOverride;
     if(!sDir){
         const sysName = els.sysSelect.options[0].textContent;

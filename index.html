@@ -6,9 +6,7 @@
 <title>EmuGames List</title>
 <meta name="description" content="Retro games catalog" />
 <style>
-  /* 0. GLOBAL RESET & VARS */
   :root{
-    /* 1. DARKER THEME ADJUSTMENTS */
     --bg: #12181e;         
     --bg-subtle: #1a222a;  
     --panel: #1e2732;      
@@ -20,20 +18,17 @@
     --border: #304050;     
     --scrollbar-thumb: #3e4e5e; 
     --scrollbar-hover: #52667a; 
-    
     font-family: Arial, sans-serif;
   }
   
   * { box-sizing: border-box; }
 
-  /* 3. SCROLLBARS */
   ::-webkit-scrollbar { width: 16px; height: 16px; }
   
-  /* 2. Закругление трека скроллбара */
   ::-webkit-scrollbar-track { 
     background: var(--bg); 
     border-radius: 6px; 
-    margin: 2px;
+    margin: 0px;
   }
   
   ::-webkit-scrollbar-thumb { 
@@ -44,13 +39,12 @@
   }
   ::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-hover); }
 
-  /* 3. Исправление белого уголка между скроллбарами */
   ::-webkit-scrollbar-corner { background: var(--bg); }
-  
+    
   html, body {
     height: 100%;
     margin: 0; padding: 0;
-    background: linear-gradient(180deg, #0e141a 0%, #12181e 100%); /* Darker gradient */
+    background: linear-gradient(180deg, #0e141a 0%, #12181e 100%);
     color: var(--text-primary);
     overflow: hidden; 
     font-size: 16px; 
@@ -62,7 +56,7 @@
     height: 100dvh; 
     max-width: 1400px; 
     margin: 0 auto;
-    padding: 10px 14px 14px 14px; 
+    padding: 14px 14px 14px 14px; 
     display: grid;
     grid-template-rows: auto minmax(0, 1fr); 
     grid-template-columns: 500px 1fr; 
@@ -72,8 +66,7 @@
   header {
     grid-column: 1 / -1;
     display: flex; align-items: center; justify-content: space-between;
-    min-height: 32px; padding: 0 4px;
-    margin-bottom: 4px;
+    padding: 0 4px;
   }
   header h1 { margin: 0; font-size: 22px; font-weight: 500; line-height: 1; letter-spacing: -0.5px; }
 
@@ -85,9 +78,8 @@
     border-radius: 6px; 
   }
 
-  aside.panel { padding: 12px; }
+  aside.panel { padding: 10px; }
 
-  /* FILTERS LAYOUT */
   .filters-row {
     display: flex;
     gap: 10px; 
@@ -98,11 +90,11 @@
 
   .filter-group { display: flex; flex-direction: column; }
   .fg-system { flex: 1; min-width: 0; }
-  .fg-search { width: 200px; flex-shrink: 0; }
+  .fg-search { width: 150px; flex-shrink: 0; }
 
   .lbl { 
     color: var(--text-secondary); 
-    font-size: 13px; 
+    font-size: 14px; 
     margin-bottom: 6px; 
     display: block; 
     font-weight: 500; 
@@ -115,7 +107,7 @@
     border: 1px solid var(--border);
     background: var(--card); color: var(--text-primary);
     font-size: 15px; 
-    height: 36px;   
+    height: 31px;   
     border-radius: 4px; 
     outline: none; 
     font-family: inherit;
@@ -134,26 +126,24 @@
   }
   
   .list-header {
-    margin-top: 4px; 
-    margin-bottom: 4px;  
-    display: flex; justify-content: space-between; 
-    align-items: center; 
+    margin-top: 4px;
+    margin-bottom: 1px;
+    display: flex; justify-content: space-between;
+    align-items: center;
     flex-shrink: 0;
-    padding-bottom: 4px;
   }
 
-  #games-count { font-size: 13px; color:var(--text-secondary); margin-right: 2px; }
+  #games-count { font-size: 13px; color:var(--text-secondary); margin-right: 3px; margin-bottom: 6px; }
 
   #game-list-container { flex: 1; position: relative; min-height: 0; }
 
   #game-list {
     position: absolute; top: 0; left: 0; right: 0; bottom: 0;
     overflow-y: auto; 
-    padding-right: 2px;
   }
 
   .game-item {
-    padding: 8px 12px; 
+    padding: 4px 10px; 
     margin-bottom: 6px; 
     background: var(--card);
     cursor: pointer;
@@ -180,7 +170,7 @@
     flex-shrink: 0; margin-bottom: 12px; padding-bottom: 0;
     border-bottom: none; 
   }
-  .gh-title { font-size: 20px; font-weight: 700; color: var(--text-primary); line-height: 1.3; }
+  .gh-title { font-size: 18px; font-weight: 700; color: var(--text-primary); line-height: 1.3; }
 
   .tabs-bar {
     display: flex; justify-content: space-between; align-items: flex-end;
@@ -254,7 +244,7 @@
   
   /* Link styling for placeholder */
   .ph-link { color: var(--accent); text-decoration: none; transition: opacity 0.2s; }
-  .ph-link:hover { opacity: 0.8; text-decoration: underline; }
+  .ph-link:hover { opacity: 0.8; text-decoration: none; }
 
   @media(max-width: 900px){
     .wrap {
@@ -263,7 +253,7 @@
       height: 100dvh; overflow: hidden;
       padding: 8px; gap: 8px;
     }
-    header { min-height: auto; margin-bottom: 6px; }
+    header { min-height: auto; }
     header h1 { font-size: 18px; }
     aside.panel { padding: 10px; }
     .content-pad { padding: 10px; }
@@ -272,7 +262,7 @@
       flex-wrap: nowrap; 
       gap: 8px;
     }
-    .fg-search { width: 130px; min-width: 130px; }
+    .fg-search { width: 150px; min-width: 150px; }
     .fg-system { flex: 1; width: auto; }
   }
 </style>
@@ -282,7 +272,11 @@
 <div class="wrap">
   <header>
     <h1>EmuGames List</h1>
-    <div style="font-size:12px; color:var(--text-secondary)">v1.8</div>
+    <div style="font-size:14px; color:var(--text-secondary); text-align:right; line-height:1.4;">
+      Support the project: 
+      Subscribe to <a href="https://www.youtube.com/@EmuGamesList" target="_blank" class="ph-link">YouTube</a> 
+      & <a href="https://boosty.to/topretrogames" target="_blank" class="ph-link">Donate</a>
+    </div>
   </header>
 
   <aside class="panel">
@@ -315,13 +309,19 @@
 
   <main class="panel" id="details">
     <div id="placeholder" style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:20px;">
-      <div style="font-size:20px; font-weight:500; color:var(--text-primary); margin-bottom:16px;">Private Initiative Project</div>
-      <div style="font-size:15px; color:var(--text-secondary); max-width:400px; line-height:1.6;">
+      <div style="font-size:22px; font-weight:500; color:var(--text-primary); margin-bottom:16px;">EmuGames List</div>
+      <div style="font-size:18px; color:var(--text-secondary); max-width:400px; line-height:1.6;">
         This is a private initiative project to compile a list of old video games runnable on emulators.
         <br><br>
         If you want to support the project:<br>
         Subscribe to YouTube: <a href="https://www.youtube.com/@EmuGamesList" target="_blank" class="ph-link">@EmuGamesList</a><br>
         Donate: <a href="https://boosty.to/topretrogames" target="_blank" class="ph-link">Boosty</a>
+      </div>
+      
+      <hr style="width: 60%; border: 0; border-top: 1px solid var(--border); margin: 25px 0;">
+      
+      <div style="font-size:16px; color:var(--text-primary); font-weight:500;">
+        Select a system and a game from the list.
       </div>
     </div>
 
@@ -334,7 +334,7 @@
       <div class="tabs-bar">
         <div class="tabs" id="tabs">
           <div class="tab active" data-tab="screens">Screenshots</div>
-          <div class="tab" data-tab="info">Info</div>
+          <div class="tab" data-tab="info">Information</div>
           <div class="tab" data-tab="youtube" id="tab-btn-yt">Gameplay</div>
         </div>
 
@@ -349,7 +349,7 @@
         <div id="tab-screens">
           <div id="screenshot-area">
              <div id="img-container" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;"></div>
-             <div id="screens-msg" style="position:absolute; color:var(--text-secondary); font-size:15px;">Loading...</div>
+             <div id="screens-msg" style="position:absolute; color:var(--text-secondary); font-size:16px;">Loading...</div>
           </div>
         </div>
 
@@ -561,7 +561,13 @@ async function loadSystem(dir){
     const phTitle = document.querySelector('#placeholder div:first-child');
     const phBody = document.querySelector('#placeholder div:nth-child(2)');
     if(phTitle) phTitle.textContent = els.sysSelect.options[0].textContent;
+    // Обновляем текст инструкции
     if(phBody) phBody.innerHTML = 'Select a game from the list.';
+    // Скрываем разделитель и нижнюю инструкцию, если они есть (т.к. система уже выбрана)
+    const phHr = document.querySelector('#placeholder hr');
+    const phInstr = document.querySelector('#placeholder div:last-child');
+    if(phHr) phHr.style.display = 'none';
+    if(phInstr) phInstr.style.display = 'none';
   }
 }
 
@@ -696,7 +702,7 @@ async function loadScreens(g, customPath = null, sysDirOverride = null){
     }
   } catch(e){ console.log('No images.json', e); }
   
-  els.screenMsg.textContent = 'No screenshots found.';
+  els.screenMsg.textContent = 'No screenshots found';
   els.screenCounter.textContent = '0 / 0';
   els.prev.disabled = true;
   els.next.disabled = true;
