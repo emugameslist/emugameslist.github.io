@@ -155,8 +155,11 @@
     border-radius: 4px;
   }
   
-  @media (hover: hover) {
-    .game-item:hover { background: var(--bg-subtle); border-color: var(--accent); }
+  @media (hover: hover) and (pointer: fine) {
+    .game-item:hover { 
+      background: var(--bg-subtle); 
+      border-color: var(--accent); 
+    }
   }
   .game-item.selected { background: rgba(77, 166, 255, 0.15); border-color: var(--accent); }
 
