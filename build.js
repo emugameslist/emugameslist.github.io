@@ -530,7 +530,7 @@ async function loadSystem(dir){
   let tempGames = [];
 
   for(const type of order){
-    // ИСПРАВЛЕНО: Замена шаблонного литерала на конкатенацию строк для устранения SyntaxError
+    // ИСПРАВЛЕНО ранее: Замена шаблонного литерала на конкатенацию строк для устранения SyntaxError
     const data = await fetchFile('Systems/' + encodeURIComponent(dir) + '/' + type + '.ini', 'ini');
     if(!data) continue;
     
@@ -552,7 +552,7 @@ async function loadSystem(dir){
   appState.games = tempGames.map((g, i) => ({...g, id: i})); 
   renderList();
 
-  // ИСПРАВЛЕНО: Замена шаблонного литерала на конкатенацию строк
+  // ИСПРАВЛЕНО ранее: Замена шаблонного литерала на конкатенацию строк
   const sysDirEnc = encodeURIComponent(dir);
   const sysInfoPath = 'Systems/' + sysDirEnc + '/Info';
   const sysInfoTxt = await fetchFile(sysInfoPath + '/Info.txt', 'text');
@@ -587,8 +587,8 @@ function getGameDisplayText(g) {
   else if (g.source === 'Demos') suffix = ' *Demo';
   
   let html = escapeHtml(g.name) + suffix;
-  if(g.year) html += ` (${escapeHtml(g.year)})`;
-  if(g.rating) html += ` ⭐ ${escapeHtml(g.rating)}`;
+  if(g.year) html += ' (' + escapeHtml(g.year) + ')';
+  if(g.rating) html += ' ⭐ ' + escapeHtml(g.rating);
   return html;
 }
 
@@ -609,7 +609,8 @@ function renderList(){
     const el = document.createElement('div');
     el.className = 'game-item';
     if(appState.currentG && appState.currentG.id === g.id) el.classList.add('selected');
-    el.innerHTML = `<div class="g-name">${getGameDisplayText(g)}</div>`;
+    // ИСПРАВЛЕНО: Замена шаблонного литерала на конкатенацию строк
+    el.innerHTML = '<div class="g-name">' + getGameDisplayText(g) + '</div>';
     el.onclick = () => loadGame(g, el);
     frag.appendChild(el);
   });
@@ -632,7 +633,7 @@ async function loadGame(g, elBtn){
   const sysOpt = [...els.sysSelect.options].find(o => o.textContent === sysName && !o.disabled);
   const sysDir = sysOpt ? sysOpt.value : sysName; 
 
-  // ИСПРАВЛЕНО: Замена шаблонного литерала на конкатенацию строк для finalPath
+  // ИСПРАВЛЕНО ранее: Замена шаблонного литерала на конкатенацию строк для finalPath
   const finalPath = 'Systems/' + sysDir + '/' + g.source + '/' + g.dir + '/Info.txt';
 
   const infoTxt = await fetchFile(finalPath, 'text');
@@ -650,7 +651,7 @@ async function loadGame(g, elBtn){
 
   if (videoId) {
     els.tabBtnYt.style.display = 'block'; 
-    // ИСПРАВЛЕНО: Замена шаблонного литерала на конкатенацию строк для innerHTML
+    // ИСПРАВЛЕНО ранее: Замена шаблонного литерала на конкатенацию строк для innerHTML
     els.yt.innerHTML = '<div class="embed-container"><iframe src="https://www.youtube.com/embed/' + videoId + '" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>';
   } else {
     els.tabBtnYt.style.display = 'none';
@@ -688,11 +689,11 @@ async function loadScreens(g, customPath = null, sysDirOverride = null){
     const sysDirEnc = encodeURIComponent(sDir);
     const typeDir = encodeURIComponent(g.source);
     const gameDir = encodeURIComponent(g.dir);
-    // ИСПРАВЛЕНО: Замена шаблонного литерала на конкатенацию строк для basePath
+    // ИСПРАВЛЕНО ранее: Замена шаблонного литерала на конкатенацию строк для basePath
     basePath = 'Systems/' + sysDirEnc + '/' + typeDir + '/' + gameDir;
   }
   
-  // ИСПРАВЛЕНО: Замена шаблонного литерала на конкатенацию строк для jsonPath
+  // ИСПРАВЛЕНО ранее: Замена шаблонного литерала на конкатенацию строк для jsonPath
   const jsonPath = basePath + '/images.json';
 
   try {
@@ -700,7 +701,7 @@ async function loadScreens(g, customPath = null, sysDirOverride = null){
     if(r.ok){
       const list = await r.json();
       if(Array.isArray(list) && list.length > 0){
-        // ИСПРАВЛЕНО: Замена шаблонного литерала на конкатенацию строк внутри map
+        // ИСПРАВЛЕНО ранее: Замена шаблонного литерала на конкатенацию строк внутри map
         appState.screens = list.map(f => basePath + '/' + f); 
         els.screenMsg.style.display = 'none';
         showScreen(0);
@@ -722,7 +723,8 @@ function showScreen(idx){
   if(appState.screenIdx >= appState.screens.length) appState.screenIdx = 0;
 
   const url = appState.screens[appState.screenIdx];
-  els.screenCounter.textContent = `${appState.screenIdx+1} / ${appState.screens.length}`;
+  // ИСПРАВЛЕНО: Замена шаблонного литерала на конкатенацию строк
+  els.screenCounter.textContent = (appState.screenIdx + 1) + ' / ' + appState.screens.length;
   
   els.screenWrap.innerHTML = '';
   const img = new Image();
@@ -920,21 +922,13 @@ function writeSitemap(entries) {
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 `;
 
+    // ИСПРАВЛЕНО: Замена шаблонного литерала на конкатенацию строк (для Node.js)
     // Always include the root index
-    sitemapXml += `  <url>
-    <loc>${BASE_URL}</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
-  </url>\n`;
+    sitemapXml += '  <url>\n    <loc>' + BASE_URL + '</loc>\n    <lastmod>' + today + '</lastmod>\n    <changefreq>daily</changefreq>\n    <priority>1.0</priority>\n  </url>\n';
 
+    // ИСПРАВЛЕНО: Замена шаблонного литерала на конкатенацию строк (для Node.js)
     entries.forEach(entry => {
-        sitemapXml += `  <url>
-    <loc>${entry.loc}</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>\n`;
+        sitemapXml += '  <url>\n    <loc>' + entry.loc + '</loc>\n    <lastmod>' + today + '</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>\n';
     });
 
     sitemapXml += `</urlset>`;
