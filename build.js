@@ -530,7 +530,8 @@ async function loadSystem(dir){
   let tempGames = [];
 
   for(const type of order){
-    const data = await fetchFile(`Systems/${encodeURIComponent(dir)}/${type}.ini`, 'ini');
+    // ИСПРАВЛЕНО: Замена шаблонного литерала на конкатенацию строк для устранения SyntaxError
+    const data = await fetchFile('Systems/' + encodeURIComponent(dir) + '/' + type + '.ini', 'ini');
     if(!data) continue;
     
     let group = Object.values(data).map((obj, idx) => ({
@@ -551,8 +552,10 @@ async function loadSystem(dir){
   appState.games = tempGames.map((g, i) => ({...g, id: i})); 
   renderList();
 
-  const sysInfoPath = `Systems/${encodeURIComponent(dir)}/Info`;
-  const sysInfoTxt = await fetchFile(`${sysInfoPath}/Info.txt`, 'text');
+  // ИСПРАВЛЕНО: Замена шаблонного литерала на конкатенацию строк
+  const sysDirEnc = encodeURIComponent(dir);
+  const sysInfoPath = 'Systems/' + sysDirEnc + '/Info';
+  const sysInfoTxt = await fetchFile(sysInfoPath + '/Info.txt', 'text');
   
   if(sysInfoTxt) {
     els.placeholder.style.display = 'none';
@@ -629,7 +632,8 @@ async function loadGame(g, elBtn){
   const sysOpt = [...els.sysSelect.options].find(o => o.textContent === sysName && !o.disabled);
   const sysDir = sysOpt ? sysOpt.value : sysName; 
 
-  const finalPath = `Systems/${sysDir}/${g.source}/${g.dir}/Info.txt`;
+  // ИСПРАВЛЕНО: Замена шаблонного литерала на конкатенацию строк для finalPath
+  const finalPath = 'Systems/' + sysDir + '/' + g.source + '/' + g.dir + '/Info.txt';
 
   const infoTxt = await fetchFile(finalPath, 'text');
   const safeInfo = infoTxt || g.comment || 'No description available.';
@@ -646,11 +650,8 @@ async function loadGame(g, elBtn){
 
   if (videoId) {
     els.tabBtnYt.style.display = 'block'; 
-    els.yt.innerHTML = `
-      <div class="embed-container">
-        <iframe src="https://www.youtube.com/embed/${videoId}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-      </div>
-    `;
+    // ИСПРАВЛЕНО: Замена шаблонного литерала на конкатенацию строк для innerHTML
+    els.yt.innerHTML = '<div class="embed-container"><iframe src="https://www.youtube.com/embed/' + videoId + '" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>';
   } else {
     els.tabBtnYt.style.display = 'none';
     els.yt.innerHTML = '';
@@ -687,17 +688,20 @@ async function loadScreens(g, customPath = null, sysDirOverride = null){
     const sysDirEnc = encodeURIComponent(sDir);
     const typeDir = encodeURIComponent(g.source);
     const gameDir = encodeURIComponent(g.dir);
-    basePath = `Systems/${sysDirEnc}/${typeDir}/${gameDir}`;
+    // ИСПРАВЛЕНО: Замена шаблонного литерала на конкатенацию строк для basePath
+    basePath = 'Systems/' + sysDirEnc + '/' + typeDir + '/' + gameDir;
   }
   
-  const jsonPath = `${basePath}/images.json`;
+  // ИСПРАВЛЕНО: Замена шаблонного литерала на конкатенацию строк для jsonPath
+  const jsonPath = basePath + '/images.json';
 
   try {
     const r = await fetch(jsonPath);
     if(r.ok){
       const list = await r.json();
       if(Array.isArray(list) && list.length > 0){
-        appState.screens = list.map(f => `${basePath}/${f}`); 
+        // ИСПРАВЛЕНО: Замена шаблонного литерала на конкатенацию строк внутри map
+        appState.screens = list.map(f => basePath + '/' + f); 
         els.screenMsg.style.display = 'none';
         showScreen(0);
         return;
