@@ -1,0 +1,12 @@
+{
+  "name": "emugames-list-static-builder",
+  "version": "1.0.0",
+  "description": "Retro games catalog static site generator",
+  "main": "build.js",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "dependencies": {
+    "ini": "^4.1.2" 
+  }
+}
