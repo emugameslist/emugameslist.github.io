@@ -1,12 +1,18 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>EmuGames List</title>
-<meta name="description" content="Retro games catalog" />
+<meta name="description" content="This project aims to compile a list of retro games playable on emulators.">
+<meta name="keywords" content="retro games, emulator games, classic games, video games, gaming catalog">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://imadering.github.io/emugames-list/">
+<meta property="og:title" content="EmuGames List">
+<meta property="og:description" content="This project aims to compile a list of retro games playable on emulators.">
+<meta property="og:image" content="EGL.jpg">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
-<meta name="theme-color" content="#12181e" />
+<meta name="theme-color" content="#12181e">
 <style>
   :root{
     color-scheme: dark;
@@ -237,7 +243,7 @@
   
   #tab-youtube { padding: 0px; overflow-y: auto; }
   
-  .info-block { font-size: 16px; line-height: 1.6; white-space: pre-wrap; margin-top: 0; color: var(--text-primary); }
+  .info-block { font-size: 15px; line-height: 1.2; white-space: pre-wrap; margin-top: 0; color: var(--text-primary); }
   
   .embed-container {
     position: relative;
@@ -277,7 +283,6 @@
 </style>
 </head>
 <body>
-
 <div class="wrap">
   <header>
     <h1>EmuGames List</h1>
@@ -319,7 +324,7 @@
     <div id="placeholder" style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:20px;">
       <div style="font-size:20px; font-weight:500; color:var(--text-primary); margin-bottom:12px;">EmuGames List</div>
       <div style="font-size:16px; color:var(--text-secondary); max-width:400px; line-height:1.5;">
-        This is a private initiative project to compile a list of old video games runnable on emulators.
+        This project aims to compile a list of retro games playable on emulators.
         <br><br>
         If you want to support the project:<br>
         Subscribe to YouTube: <a href="https://www.youtube.com/@EmuGamesList" target="_blank" class="ph-link">@EmuGamesList</a><br>
@@ -437,7 +442,11 @@ let appState = {
   activeTab: 'screens'
 };
 
+let defaultPlaceholderHTML = '';
+
 async function init(){
+  defaultPlaceholderHTML = els.placeholder.innerHTML;
+  
   const sysData = await fetchFile('Systems.ini', 'ini');
   els.sysSelect.innerHTML = '<option value="" disabled selected hidden>Select System</option>';
   
@@ -504,8 +513,10 @@ async function loadSystem(dir){
   document.getElementById('tab-info').scrollTop = 0;
   document.getElementById('tab-youtube').scrollTop = 0;
 
+  els.placeholder.innerHTML = defaultPlaceholderHTML;
   els.placeholder.style.display = 'flex';
   els.gameArea.style.display = 'none';
+  
   els.list.innerHTML = '<div style="padding:15px; color:var(--muted)">Loading...</div>';
 
   const selectedOpt = [...els.sysSelect.options].find(o => o.value === dir);
@@ -552,17 +563,6 @@ async function loadSystem(dir){
   } else {
     els.placeholder.style.display = 'flex';
     els.gameArea.style.display = 'none';
-    
-    const phTitle = document.querySelector('#placeholder div:first-child');
-    const phBody = document.querySelector('#placeholder div:nth-child(2)');
-    if(phTitle) phTitle.textContent = els.sysSelect.options[0].textContent;
-    
-    if(phBody) phBody.innerHTML = 'Select a game from the list.';
-    
-    const phHr = document.querySelector('#placeholder hr');
-    const phInstr = document.querySelector('#placeholder div:last-child');
-    if(phHr) phHr.style.display = 'none';
-    if(phInstr) phInstr.style.display = 'none';
   }
 }
 
@@ -620,7 +620,14 @@ async function loadGame(g, elBtn){
   const finalPath = `Systems/${sysDir}/${g.source}/${g.dir}/Info.txt`;
 
   const infoTxt = await fetchFile(finalPath, 'text');
-  const safeInfo = infoTxt || g.comment || 'No description available.';
+  let fullDesc = infoTxt || '';
+  if (g.comment) {
+    fullDesc += `\nComment: ${g.comment}\n`;
+  }
+  if (g.found) {
+    fullDesc += `\nFound file: ${g.found}\n`;
+  }
+  const safeInfo = fullDesc || 'No description available.';
   els.desc.textContent = safeInfo;
 
   let videoId = null;
