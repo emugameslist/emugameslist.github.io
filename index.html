@@ -487,6 +487,8 @@ async function init(){
     t.classList.add('active');
     appState.activeTab = t.dataset.tab;
     updateTabContent();
+    if(appState.activeTab === 'info') document.getElementById('tab-info').scrollTop = 0;
+    if(appState.activeTab === 'youtube') document.getElementById('tab-youtube').scrollTop = 0;
   });
 }
 
@@ -648,7 +650,7 @@ async function loadGame(g, elBtn){
   }
   const safeInfo = fullDesc || 'No description available.';
   els.desc.textContent = safeInfo;
-
+  
   let videoId = null;
   if (safeInfo) {
     const match = safeInfo.match(/(?:Gameplay|Video):\s*(https?:\/\/[^\s]+)/);
@@ -657,7 +659,7 @@ async function loadGame(g, elBtn){
       if (idMatch && idMatch[1]) videoId = idMatch[1];
     }
   }
-
+  
   if (videoId) {
     els.tabBtnYt.style.display = 'block'; 
     els.yt.innerHTML = `
