@@ -30,6 +30,8 @@
     --border: #304050;
     --scrollbar-thumb: #3e4e5e;
     --scrollbar-hover: #52667a;
+    --badge-emulator: #45d076;
+    --badge-demo: #2dd4bf;
     font-family: Arial, sans-serif;
   }
   
@@ -584,9 +586,9 @@ async function loadSystem(dir){
 function getGameDisplayText(g) {
   let suffix = '';
   if (g.source === 'Emulators') {
-    suffix = ` <span style="color:var(--accent); display:inline-block;">Emulator</span>`;
+    suffix = ` <span style="color:var(--badge-emulator); display:inline-block;">Emulator</span>`;
   } else if (g.source === 'Demos') {
-    suffix = ` <span style="color:var(--accent); display:inline-block;">Demo</span>`;
+    suffix = ` <span style="color:var(--badge-demo); display:inline-block;">Demo</span>`;
   }
   let html = `<span>${escapeHtml(g.name)}</span>` + suffix;
   if(g.year) {
