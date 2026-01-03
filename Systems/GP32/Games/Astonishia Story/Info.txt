@@ -1,0 +1,20 @@
+﻿Astonishia Story R is an enhanced remake of the classic Korean tactical RPG, serving as a flagship title for the GP32 (GamePark 32) handheld console. While the original game debuted in 1994 for MS-DOS, this GP32 version revitalized the franchise with updated graphics and gameplay, eventually leading to a later port for the PSP.
+
+The story follows the traditional tropes of 90s fantasy adventures but delivers them with a unique twist. The protagonist is a young, honorable knight named Lloyd. While escorting the "Wand of Kinard" - a sacred relic of the kingdom - his party is ambushed, and the artifact is stolen.
+
+To reclaim the wand and restore his honor, Lloyd embarks on a journey across the continent. Along the way, he assembles a diverse group of companions. The narrative is well-known for its sense of humor, frequent Fourth Wall breaks, and lighthearted parodies of the RPG genre itself.
+
+Gameplay Mechanics
+Exploration: Players navigate a world map to travel between various towns, dungeons, and forests. Exploration within locations uses a vibrant isometric perspective.
+
+Combat System: The game features a turn-based tactical combat system. Battles take place on a grid where positioning, movement range, and attack distance are crucial for victory.
+
+Party Management: As you progress, various characters - such as mages, warriors, and thieves - join your cause, each bringing unique skill sets and equipment needs.
+
+For a handheld title released in the early 2000s, it was a technical showcase for the GP32 hardware:
+
+Visuals: The game features bright 2D hand-drawn art, highly detailed sprites, and smooth animations. The remake completely overhauled the 1994 visuals to match modern standards of the time.
+
+Audio: It boasts a high-quality soundtrack that enhances the epic yet often whimsical atmosphere of the journey.
+
+Astonishia Story R is often considered the "killer app" for the GP32. It proved that the Korean developer Sonnori could compete with the quality of major Japanese RPG developers on the Game Boy Advance. For retro gamers, it remains a prime example of the "K-RPG" style - offering a distinct flavor compared to Western or Japanese counterparts.

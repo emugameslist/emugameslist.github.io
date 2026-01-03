@@ -18,3 +18,5 @@ B -　Shoots down.
 SELECT Button -　Shoots left.
 
 Naoyuki Sawa
+
+Gameplay: https://youtu.be/J7UJEvZlVo0

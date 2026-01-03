@@ -1,0 +1,3 @@
+﻿GeePee32 is a GP32 emulator that emulates the Korean GP32 handheld.
+
+Site: https://www.schuerewegen.tk/gp32/

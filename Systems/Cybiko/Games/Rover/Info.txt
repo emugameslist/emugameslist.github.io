@@ -1,0 +1,6 @@
+﻿You are a bum searching for treasure on the island of the pirate archipelago.
+
+You need to get more treasures. There are savage pirates on the islands. Any encounter will mean death for you.
+
+Controls
+<Arrows> - will move you to an unoccupied area.

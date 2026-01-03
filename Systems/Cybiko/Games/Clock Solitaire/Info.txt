@@ -1,0 +1,11 @@
+﻿Train your brain and relax your mind with Clock Solitaire.
+
+Clock solitaire is played with one full deck (52 cards). Gray "fake" cards show the board layout. A card can be played on another card of the same rank, but of a different color.
+
+You win the game by moving all the cards on 13 stacks. The deck can be gone through two times.
+
+Controls
+Press <Arrows> to move focus through the cards.
+Press <Enter>, <Select> or <Ins> to pick up the necessary card.
+Press <Enter> to place the card.
+Press <Esc> to end the game.

@@ -1,0 +1,23 @@
+﻿Your goal is to compose pictures from the Gallery. Each picture is divided into 16 fragments. You have the Fragments List - the collection of fragments that you use composing your picture. However, you won't have all fragments for the pictures in the Fragments List. You will receive virtual Presents with the fragments from your Cybiko. You can receive some fragments from your friends that have the Puzzle game on their Cybikos. If you want to present a fragment to your friend's Puzzle game, you can also do this.
+
+Enjoy a fine animation after you've completed the puzzle and composed a picture!
+
+To choose a figure in the Gallery, use <Arrows> and press <Enter>.
+Press <Esc> to quit the game.
+
+While composing a picture:
+Press <Tab> to switch focus between Fragments List and figure.
+Press <Esc> to quit to the Gallery.
+
+When focus in Fragments List:
+Use <Up/Down arrows> to move through the List.
+Use <Left/Right arrows> to select first/last fragment in the List.
+Press <Enter> to choose selected fragment.
+Press <Del> to delete selected fragment.
+Press <Ins> and choose a person from the list to present selected fragment.
+
+When focus on the figure:
+Use <Arrows> to move the pointer.
+Press <Select>, <Fn><Select> to rotate chosen fragment.
+Press <Enter> to insert or take out selected fragment.
+Press <Del> to return selected fragment to the Fragments List.

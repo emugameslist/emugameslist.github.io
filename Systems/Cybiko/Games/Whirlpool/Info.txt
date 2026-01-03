@@ -1,0 +1,18 @@
+﻿The object of the game is to arrange pieces so a complete picture results. The game has 8 levels. You work with a square that surrounds 4 pieces of the picture. You make one step when you move the square and shift the pieces inside it (clockwise or counterclockwise). The Cybiko computer breaks the picture in such a way: the square goes through all the possible positions and at each position, one shift of the inside pieces is made. You can take a hint whenever you wish. You will be shown the numerals representing where the first, second, etc pieces of the original picture are right now. You score points for the each arranged picture and are given a bonus if you've finished the puzzle in just a few steps. The points for the level on which you haven't use a hint are doubled. The game ends when you arrange all 8 pictures or if you exit the game.
+
+Selecting level mode:
+Use <Left/Right arrows> to cycle through the levels;
+Press <Enter> or <Select> to start arranging the picture at the selected level;
+Press <Esc> to exit or restart the game.
+
+Arranging picture mode:
+Use <Arrows> to move the square;
+Press <Enter> to shift the pieces inside the square clockwise;
+Press <Select> to shift the pieces inside the square counterclockwise;
+Press <Esc> to return to the previous screen.
+
+General options:
+Press <Del> to show/hide the tip;
+Press <BkSp> to switch over the playing area sides;
+Press <Ins> to show/hide the informational field;
+Press <Tab> to view the list of 10 highest scores.

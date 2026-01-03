@@ -17,3 +17,5 @@ After you fire, you cannot fire again until you return to the waiting position.
 If you are ready to fire and do nothing, the gun will return to the waiting position after a certain amount of time.
 If you fire while the apple is falling, the throw counts.
 If the apple hits the ground, the throw is lost.
+
+Gameplay: https://youtu.be/cuC6lTKaK4I

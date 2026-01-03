@@ -1,0 +1,7 @@
+﻿Fire your gun at the targets - clay pigeons. If you're a good marksman you will score the most points!
+
+You're armed with a gun and bullets. You will be awarded a certain amount of points if you hit the target. The goal is to score the most points.
+
+Controls
+Use <Left/Right arrows> to select the corner for your gun.
+Press <Space> to fire.

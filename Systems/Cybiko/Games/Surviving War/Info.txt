@@ -1,0 +1,12 @@
+﻿This is a single player game in which you maneuver a tank through the war torn country. The object of the game is to reach a certain place while getting points. When your tank arrives to the destination, you will advance to the next level. The game has 5 levels. You can call up a map at any time that will show you where you are at the moment and the place of your destination. A small black dot on the map represents your tank; the larger one is your destination.
+
+On your way you will meet with the enemy objects: soldiers, cars, lorries, trains, different tanks, fortifications and fascist staff. Some of them can be destroyed and some can’t. The tanks and soldiers will shoot at you. You can run over the soldiers. From all the buildings, the remaining enemy staff can be destroyed.
+
+At the beginning of the game you have 3 lives and 100 health points. If you are hit with the enemy bullets, you’ll lose the health points. Once the number of health points reaches 0 or the time for passing the level runs out, you lose one life and are placed in the starting position of the current level. You score points for every destroyed enemy object. Bonus points are added to your score for the time remaining after the level is passed. The game ends when you pass all 5 levels either you lose all your lives.
+
+Controls
+Use <Arrows> to control your tank.
+Press <Enter> to shoot.
+Press <Tab> to show/hide the map.
+Press <Ins> to move the info area up/down.
+Press <Esc> to exit to the game menu or restart the game.

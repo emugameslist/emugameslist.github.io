@@ -1,0 +1,14 @@
+﻿Renju is played between two opponents, White and Black, on a 15x15 intersections board. The first player who gets an unbroken line of five stones - whether vertically, horizontally or diagonally - wins the game.
+
+Black is prohibited from making a double three, a double four and an overline - more than five stones. If Black makes one of these patterns either accidentally or by being forced, the player loses the game.
+
+Black plays the first three moves of the game: first black stone at the center intersection, white stone in direct connection with the black stone and second black stone on an empty place within a zone of 5x5 intersection with the same center as the center intersection according to the Renju opening patterns. White has the right to change sides instead of the fourth move.
+
+There are no restrictions on the fifth and later moves. The game can be over if one of the players exceeds the game time, then the other player is a winner.
+
+Controls
+Use <Arrows> to select the intersection.
+Press <Enter> to make the move.
+Press <Tab> to change sides (only for White on fourth move).
+If you want to see your rating and that of your opponent, press <R>. Press <Enter> to close rating box.
+Press <Esc> to exit the game.

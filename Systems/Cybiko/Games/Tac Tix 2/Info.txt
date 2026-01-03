@@ -1,0 +1,12 @@
+﻿Tac Tix 2 is played between two opponents on a 4x4 board. Upon starting the game, you may choose your face from the list of faces. The players take turns removing rocks from the board. From one to four adjacent rocks can be taken out of a row or a column. A player removing the last rock from the board loses while the opponent wins. The game ends when there are no any rocks on the board or if one of the players exceeds the game time.
+
+Controls
+Use <Arrows> to move the pointer.
+To select a rock, place the pointer on it, then press <Select>.
+To select a group of rocks, press <Select> to choose a rock on one end of the group, then press <Select> to choose the other end of the group.
+Press <Enter> to remove the selected rock or rocks.
+If you have something to say to your opponent, press <C> to open the comment box, type what you want and press <Enter> to send it!
+Press <Tab> to switch the game screen view (horizontal or vertical).
+If you want to see your rating and that of your opponent, press <R>.
+Press <Enter> to close rating box.
+Press <Esc> to exit the game.

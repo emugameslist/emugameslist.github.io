@@ -1,0 +1,15 @@
+﻿Win the title of Champion in Froggie's Race, in which you compete with your fellow frogs in your native river! You are a small frog that participates in the races on a river full of danger and obstacles.
+
+Nine other frogs will compete with you. There are five heats in the Race. To go to the next heat, you have to be in the Top 3 of the race before. While running on the river, avoid the water lilies and other snags, because, upon collision with them, you'll lose your speed.
+
+Beware of the hungry herons standing in the water and snakes that will unexpectedly appear from the reeds: they certainly wouldn't mind eating you. A sudden sound will inform you about the arrival of your enemies.
+
+The game ends if a heron or snake eats you or if you fail to get into the Top 3 at the end of any heat. The game also ends if you complete the race, and you are the champion if you take first in the fifth and final heat!
+
+Controls
+Use <Left/Right arrows> to move left or right.
+Press <Up arrow> to jump.
+Press <Select> to decelerate.
+Press <Enter> to accelerate.
+Press <Tab> to view the best players in each heat.
+Press <Esc> to go to the game menu.

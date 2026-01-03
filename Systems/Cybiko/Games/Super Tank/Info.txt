@@ -1,0 +1,16 @@
+﻿You control a tank and must fight the enemy tanks in an oasis in the middle of a desert. The object of the game is to pass all 5 game levels by destroying all the rivals in each one and obtaining the highest score.
+
+When the enemy tanks hit you or if you collide with the antitank barriers, you lose health points. You can destroy your rivals by shooting at them or ramming them, though in this case you'll lose some health. You can also blow up trees.
+
+To avoid errant shots, you need to carefully aim at your targets. The info area shows if you can shoot (when the shell is present), if you can be hit now by an enemy shell (the skull is present), the health meter and the view from above of your tank. The speed bar is along the right screen edge. The mark at the top of the screen depicts where one of the enemy tanks is. You score points for each enemy tank and tree blown up, plus for completing a mission and for the time remaining.
+
+The time given to complete a mission is limited. The game ends when you pass all the levels, if you lose all your health, or if the time runs out.
+
+Controls:
+Press <Select> to switch between tank and turret modes.
+Use <Left/Right arrows> to turn left and right the turret or the whole tank (depending on the mode).
+Use <Up/Down arrows> to move the turret up and down.
+Press <0>, <1>, <2>, <3>, <4> to change the tank speed.
+Press <BkSp> to move backwards.
+Press <Enter> to fire.
+Press <Esc> to exit to the Start menu or restart the game.

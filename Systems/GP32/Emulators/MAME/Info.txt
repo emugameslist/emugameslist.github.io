@@ -1,0 +1,10 @@
+﻿MAME (originally an acronym for Multiple Arcade Machine Emulator) is a multi-platform, open-source, multi-system emulator written in C++. The philosophy behind the project is to focus on recreating the workings of various machines through emulation, with the software's ability to actually play console games being described as "a nice side effect". MAME is incredibly large, supporting thousands of machines and ROM sets.
+
+Official website: https://www.mamedev.org
+Repository: https://github.com/mamedev/mame
+Cheat Collection: https://www.mamecheat.co.uk
+GameInit.dat: https://www.progettosnaps.net/gameinit/
+Command.dat: https://www.progettosnaps.net/command/
+Mameinfo.dat + MAMEUI Inifiles: https://mameinfo.mameworld.info
+History.xml: https://www.arcade-history.com
+Snapshots: https://www.progettosnaps.net/snapshots/
